@@ -7,7 +7,7 @@ export default function Contacts({contacts}) {
   return (
     <>
       {contacts.map((contact) => (
-        <Contact key='contact.id' contact={contact}/>
+        <Contact key={contact.id} contact={contact}/>
       ))}
     </>
   )

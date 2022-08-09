@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+
 import Contacts from './contacts/Contacts'
+import Header from './layouts/Header';
 
 const initialContacts = [
   {
@@ -89,7 +90,8 @@ function App() {
 
   return (
     <div>
-     <Contacts contacts={contacts}/>
+      <Header/>
+      <Contacts contacts={contacts}/>
     </div>
   )
 }
