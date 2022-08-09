@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import {Form, Button, Col, Row} from 'react-bootstrap'
 
-export default function AddContact() {
+export default function AddContact({addContact}) {
     const [contact, setContact] = useState({
         firstName: '',
         lastName: '',
@@ -23,6 +23,11 @@ export default function AddContact() {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log(contact)
+        // checking validation
+
+
+        //Form Submission
+        addContact(contact)
     }
 
     const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact

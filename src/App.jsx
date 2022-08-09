@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 import {Container } from 'react-bootstrap'
 import AddContact from './contacts/AddContact';
 import Contacts from './contacts/Contacts'
 import Header from './layouts/Header';
+
 
 const initialContacts = [
   {
@@ -95,11 +97,19 @@ function App() {
     setContacts(updatedContact)
   }
 
+  const addContact = contact => {
+    let contactToAdd = {
+      id: uuidv4,
+      ...contact,
+    }
+    setContacts([contactToAdd, ...contacts])
+  }
+
   return (
     <>
       <Header/>
       <Container style={{width: '800px', margin: '0 auto'}} className='pt-5'> 
-        <AddContact/>
+        <AddContact addContact={addContact}/>
         <Contacts contacts={contacts} deleteContact={deleteContact}/>
       </Container>
     </>
