@@ -207,3 +207,4 @@ export default function Header() {
 }
 
 6. Add font family and text center and some style add
+7. Add card markup from card react bootstrap in Contact.jsx

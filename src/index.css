@@ -9,3 +9,8 @@ body {
 .brand {
     font-family: 'Lobster Two', cursive;
 }
+.card-img {
+    max-width: 300px;
+    padding: 1.5rem;
+    height: auto;
+}
