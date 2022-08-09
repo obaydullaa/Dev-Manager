@@ -89,11 +89,16 @@ const initialContacts = [
 function App() {
   const [contacts, setContacts] = useState(initialContacts)
 
+  const deleteContact = (id) => {
+    const updatedContact = contacts.filter((contact) => contact.id !== id)
+    setContacts(updatedContact)
+  }
+
   return (
     <>
       <Header/>
       <Container style={{width: '800px', margin: '0 auto'}} className='pt-5'> 
-        <Contacts contacts={contacts}/>
+        <Contacts contacts={contacts} deleteContact={deleteContact}/>
       </Container>
     </>
   )

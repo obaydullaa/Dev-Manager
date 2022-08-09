@@ -208,3 +208,75 @@ export default function Header() {
 
 6. Add font family and text center and some style add
 7. Add card markup from card react bootstrap in Contact.jsx
+    and dynamically show contacts info
+8. add react icons cmd -> yarn add react-icons
+
+Contact.jsx:
+=================
+
+
+import React from 'react'
+
+import {Button, Card, ListGroup} from 'react-bootstrap'
+import {FaEye, FaRegTrashAlt} from 'react-icons/fa'
+
+export default function Contact({contact}) {
+    console.log(contact)
+    const {firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact
+  return (
+    <>
+        <Card className='mb-4'>
+            <div className='d-flex'>
+                <Card.Img className='card-img' src={image} />
+                    <Card.Body>
+                        <Card.Title>
+                          <span className='text-dark'>{firstName} {lastName}</span>
+                        </Card.Title>
+                        <Card.Subtitle className='mb-3 text-muted'>{profession}</Card.Subtitle>
+                        <Card.Text>{bio}</Card.Text>
+                        <ListGroup className="list-group-flush">
+                            <ListGroup.Item>Gender: {gender}</ListGroup.Item>
+                            <ListGroup.Item>Email: {email}</ListGroup.Item>
+                            <ListGroup.Item>Date of Birth: {dateOfBirth}</ListGroup.Item>
+                        </ListGroup>
+                        <div className="card-btn mt-3">
+                            <Card.Link href="#">
+                                <Button variant='warning ms-3' size='md' type='view'>
+                                    <FaEye />
+                                </Button>
+                                <Button variant='danger ms-3' size='md' type='view'>
+                                    <FaRegTrashAlt />
+                                </Button>
+                            </Card.Link>
+                        </div>
+                    </Card.Body>
+            </div>
+        </Card>
+    </>
+  )
+}
+
+9.এখন আমরা ডিলিট আইকোনে ক্লিক করলে ডিলেইট হয়ে যাবে সেটা করতে হলে id ধরতে হবে । onClick eventlistener add করব। আমাদের ডাটা রয়েছে App.jsx ফাইলে তাই আমরা App.jsx ফাইলে ফাংশন নিব । এবং সেখান থেকে props হিসাবে ডাটা পাঠিয়ে দিব । 
+App.jsx :
+===========
+function App() {
+  const [contacts, setContacts] = useState(initialContacts)
+
+  const deleteContact = (id) => { // this
+    console.log(id)
+  }
+
+  return (
+    <>
+      <Header/>
+      <Container style={{width: '800px', margin: '0 auto'}} className='pt-5'> 
+        <Contacts contacts={contacts} deleteContact={deleteContact}/> // this
+      </Container>
+    </>
+  )
+}
+ফাইনালি Contact.jsx এর মধ্য callback function নিব । যেন সরাসরি কল না হয়ে যায় । 
+
+আমরা id পেয়েগিয়েছি । এখন আমরা যে id পেয়েছি সেটা বাদে বাকি গুলো contacts state এর মধ্য সেট করে দিব । আমরা ডিরেক্ট মডিফাই করতে পারি । এর জন্য আমরা slice use করতে পারি । আমরা জানি  slice অরিজিনিয়াল array কে ডিরেক্ট মডিফাই করে দেয় । কিন্তু আমরা কখনই অরিজিনিয়াল ডাটা কে মডিফাই করব না । তাহলে আমরা aray helper method use করতে পারি । এর মধ্য আমরা filter use করতে পারি । যে আইটেমটার id আসতেছে সেটা বাদে বাকি আইটেম গুলোকে filter করে contact এ সেট করে দিব। contact এ সেটা হওয়া মানে আবার component new করে রিলোড হবে । 
+
+
