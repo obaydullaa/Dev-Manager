@@ -6,6 +6,7 @@ import Contact from './Contact'
 export default function Contacts({contacts}) {
   return (
     <>
+      <h2 className='text-center'>All Contacts</h2>
       {contacts.map((contact) => (
         <Contact key={contact.id} contact={contact}/>
       ))}

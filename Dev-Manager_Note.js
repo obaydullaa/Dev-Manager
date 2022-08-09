@@ -205,3 +205,5 @@ export default function Header() {
     </>
   )
 }
+
+6. Add font family and text center and some style add

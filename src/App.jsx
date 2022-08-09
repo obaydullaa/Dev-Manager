@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import {Container } from 'react-bootstrap'
 import Contacts from './contacts/Contacts'
 import Header from './layouts/Header';
 
@@ -89,10 +90,12 @@ function App() {
   const [contacts, setContacts] = useState(initialContacts)
 
   return (
-    <div>
+    <>
       <Header/>
-      <Contacts contacts={contacts}/>
-    </div>
+      <Container style={{width: '800px', margin: '0 auto'}} className='pt-5'> 
+        <Contacts contacts={contacts}/>
+      </Container>
+    </>
   )
 }
 

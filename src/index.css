@@ -2,7 +2,10 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    /* font-family: 'Lobster Two', cursive; */
     background-color: #eee8e4;
 
+}
+
+.brand {
+    font-family: 'Lobster Two', cursive;
 }
