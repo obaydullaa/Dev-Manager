@@ -279,4 +279,6 @@ function App() {
 
 আমরা id পেয়েগিয়েছি । এখন আমরা যে id পেয়েছি সেটা বাদে বাকি গুলো contacts state এর মধ্য সেট করে দিব । আমরা ডিরেক্ট মডিফাই করতে পারি । এর জন্য আমরা slice use করতে পারি । আমরা জানি  slice অরিজিনিয়াল array কে ডিরেক্ট মডিফাই করে দেয় । কিন্তু আমরা কখনই অরিজিনিয়াল ডাটা কে মডিফাই করব না । তাহলে আমরা aray helper method use করতে পারি । এর মধ্য আমরা filter use করতে পারি । যে আইটেমটার id আসতেছে সেটা বাদে বাকি আইটেম গুলোকে filter করে contact এ সেট করে দিব। contact এ সেটা হওয়া মানে আবার component new করে রিলোড হবে । 
 
+10. এখন আমরা শিখব contact Add করা। এই জন্য আমরা contacts foler -> contacts -> AddCotact.jsx file নিব । App.jsx ফাইল container এর উপরে রাখব । এর পর react bootstrap থেকে form এনে মার্কাআপ করব। 
+
 

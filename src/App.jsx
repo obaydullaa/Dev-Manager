@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import {Container } from 'react-bootstrap'
+import AddContact from './contacts/AddContact';
 import Contacts from './contacts/Contacts'
 import Header from './layouts/Header';
 
@@ -98,6 +99,7 @@ function App() {
     <>
       <Header/>
       <Container style={{width: '800px', margin: '0 auto'}} className='pt-5'> 
+        <AddContact/>
         <Contacts contacts={contacts} deleteContact={deleteContact}/>
       </Container>
     </>
