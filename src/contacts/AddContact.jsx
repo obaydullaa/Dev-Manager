@@ -1,40 +1,50 @@
 import React from 'react'
 import { useState } from 'react'
-
+import DatePicker from "react-datepicker";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {Form, Button, Col, Row} from 'react-bootstrap'
 
+
 export default function AddContact({addContact}) {
-    const [contact, setContact] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        profession: '',
-        bio: '',
-        dateOfBirth: new Date(),
-        gender: 'male',
-        image: '',
-    })
-    const handleChange = (evt) => {
-        setContact({
-            ...contact,
-            [evt.target.name]: evt.target.value,
-        })
+    // const [contact, setContact] = useState({
+    //     firstName: '',
+    //     lastName: '',
+    //     email: '',
+    //     profession: '',
+    //     bio: '',
+    //     dateOfBirth: new Date(),
+    //     gender: 'male',
+    //     image: '',
+    // })  
+    const [birthYear, setBirthYear] = useState(new Date());
+    
+    const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
+    console.log(errors)
+    // const handleChange = (evt) => {
+    //     setContact({
+    //         ...contact,
+    //         [evt.target.name]: evt.target.value,
+    //     })
+    // }
+    // const handleSubmit = (evt) => {
+    //     evt.preventDefault();
+    //     console.log(contact)
+    //     // checking validation
+
+
+    //     //Form Submission
+    //     addContact(contact)
+    // }
+    const onSubmit = data => {
+        console.log(data)
     }
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        console.log(contact)
-        // checking validation
 
-
-        //Form Submission
-        addContact(contact)
-    }
-
-    const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact
+    // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact
   return (
     <>
         <h2 className='text-center mb-5'>Add Contact</h2>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group as={Row} className="mb-3">
                 <Col sm={3}>
                     <Form.Label htmlFor='firstName' column>
@@ -46,13 +56,18 @@ export default function AddContact({addContact}) {
                     type="text" 
                     placeholder="FistName"
                     id='firstName' 
-                    name='firstName'
-                    value={firstName}
-                    onChange={handleChange}
+                    {...register('firstName', 
+                    {required: 'FirstName is Required', 
+                    minLength: {value: 3, message:'Length must be 3'},
+                    })}
+                    isInvalid={errors?.firstName}
                     />
+                    <Form.Control.Feedback type='invalid' >
+                        {errors?.firstName?.message}
+                    </Form.Control.Feedback>
                 </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            {/* <Form.Group as={Row} className="mb-3">
                 <Col sm={3}>
                     <Form.Label htmlFor='lastName' column>
                         LastName
@@ -119,27 +134,36 @@ export default function AddContact({addContact}) {
                     onChange={handleChange}
                     />
                 </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            </Form.Group> */}
+            {/* <Form.Group as={Row} className="mb-3">
                 <Col sm={3}>
                     <Form.Label htmlFor='dateOfBirth' column>
                         Date Of Birth
                     </Form.Label>
                 </Col>
                 <Col sm={9}>
-                    <Form.Control 
-                    type="date" 
-                    placeholder="dateOfBirth"
-                    id='dateOfBirth' 
-                    name='dateOfBirth'
-                    value={dateOfBirth}
-                    onChange={handleChange}
+                    <DatePicker
+                        selected={dateOfBirth}
+                        name='dateOfBirth'
+                        id='dateOfBirth'
+                        placeholder='Enter Your Date'
+                        maxDate={new Date()}
+                        showYearDropdown
+                        showMonthDropdown
+                        onChange={(date) => 
+                            setContact({
+                                ...contact,
+                                dateOfBirth: date,
+                            })
+                        }
                     />
+                   
+
                 </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            </Form.Group> */}
+            {/* <Form.Group as={Row} className="mb-3">
                 <Col sm={3}>
-                    <Form.Label htmlFor='firstName' column>
+                    <Form.Label htmlFor='gender' column>
                         Gender
                     </Form.Label>
                 </Col>
@@ -181,7 +205,7 @@ export default function AddContact({addContact}) {
                     onChange={handleChange}
                     />
                 </Col>
-            </Form.Group>
+            </Form.Group> */}
             <Button className='text-center' variant='primary' size='md' type='submit'>
                 Add Contact
             </Button>
