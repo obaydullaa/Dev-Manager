@@ -733,7 +733,7 @@ return (
       pauseOnHover
       />
   </>
-
+)
 //AddContact.jsx
 
 import { toast } from 'react-toastify';
@@ -745,7 +745,7 @@ const onSubmit = data => {
   addContact(data)
 }
 
-
+23. install react router dom and import  করব । আমরা Header.jsx এ Link এড না করে NavLink এড করব এর কারণ NavLink মেনু তে একটা একটিভ ক্লাস এড করবে । আমাদের প্রোজনে কিছু পেজ নিয়েছি । সেগুলো মেনু তে এড করেছি, এবং রাউটিং করেছি ।
 
 
 
