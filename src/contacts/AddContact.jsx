@@ -23,6 +23,7 @@ const schema = yup.object({
     profession: yup
     .string()
     .required('Profession is Required')
+    .oneOf(['developer', 'designer', 'marketer'])
     .min(3, 'Profession must be 3 or more in length'),
     bio: yup
     .string()
@@ -48,7 +49,8 @@ export default function AddContact({addContact}) {
     // })  
    const [birthYear, setBirthYear] = useState(new Date())
 
-    const { register, 
+    const { 
+        register, 
         handleSubmit, 
         watch, 
         setValue,
@@ -57,7 +59,16 @@ export default function AddContact({addContact}) {
      } = useForm({
         resolver: yupResolver(schema),
      });
-    console.log(errors)
+    
+    const defaultValue = {
+        firstName: 'Obaydul',
+        lastName: 'Islam',
+        email: 'obaaydulIslam@gmail.com',
+        profession: 'developer',
+        bio: 'All about myself, Modify of your own if necessary',
+        image: 'https://randomuser.me/api/portraits/men/78.jpg',
+    }
+    const {firstName, lastName, email, profession, bio, image} = defaultValue
 
     useEffect(() => {
         if(isSubmitSuccessful) {
@@ -111,7 +122,7 @@ export default function AddContact({addContact}) {
                     type="text" 
                     placeholder="FistName"
                     id='firstName' 
-                    defaultValue=''
+                    defaultValue={firstName}
                     {...register('firstName')}
                     isInvalid={errors?.firstName}
                     />
@@ -131,7 +142,7 @@ export default function AddContact({addContact}) {
                     type="text" 
                     placeholder="LastName"
                     id='lastName' 
-                    defaultValue=''
+                    defaultValue={lastName}
                     {...register('lastName')}
                     isInvalid={errors?.lastName}
                     />
@@ -151,7 +162,7 @@ export default function AddContact({addContact}) {
                     type="email" 
                     placeholder="Email"
                     id='email' 
-                    defaultValue=''
+                    defaultValue={email}
                     {...register('email')}
                     isInvalid={errors?.email}
                     />
@@ -167,14 +178,18 @@ export default function AddContact({addContact}) {
                     </Form.Label>
                 </Col>
                 <Col sm={9}>
-                    <Form.Control 
-                    type="text" 
-                    placeholder="Profession"
-                    id='profession' 
-                    defaultValue=''
-                    {...register('profession')}
-                    isInvalid={errors?.profession}
-                    />
+                <Form.Select
+                 {...register('profession')} 
+                 id='profession'
+                 defaultValue={profession}
+                 aria-label="Select your profession"
+                 isInvalid={errors?.profession}
+                 >
+                    <option value='' disabled>Select Your Profession</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="marketer">Marketer</option>
+                    </Form.Select>
                     <Form.Control.Feedback type='invalid' >
                         {errors?.profession?.message}
                     </Form.Control.Feedback>
@@ -191,7 +206,7 @@ export default function AddContact({addContact}) {
                     type="text" 
                     placeholder="Enter link of your profile picture"
                     id='image' 
-                    defaultValue=''
+                    defaultValue={image}
                     {...register('image')}
                     isInvalid={errors?.image}
                     />
@@ -254,7 +269,7 @@ export default function AddContact({addContact}) {
                     as='textarea'
                     type="text" 
                     placeholder="Bio"
-                    defaultValue=''
+                    defaultValue={bio}
                     {...register('bio')}
                     isInvalid={errors?.bio}
                     />

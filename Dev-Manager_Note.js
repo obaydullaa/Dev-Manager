@@ -31,7 +31,7 @@
  * First Part contact create and how display
  * 
  * ===================================================
- 
+  npm create vite@latest issue-tracker -- --template react
  
  */
 
@@ -537,9 +537,10 @@ export default function AddContact({addContact}) {
 
 
 // Class: 11 React Apply (Videos 1.38:58)
+//=================================================================
 
 11.  Install React Datepicker
-12. react hook form and yup install
+12. react hook form and yup install => yarn add react-hook-form yup
 13. npm install @hookform/resolvers yup
 14. from এর আগের ফাংশন কমেন্ট করে দিব এবং একটা ইনপুট রেখে বাকি গুলে কমেন্ট করে দিব।
 useForm Hook দিয়ে ইরোর মেসেজ দেখিয়েছি ।
@@ -655,3 +656,55 @@ disabled={isSubmitting? 'disabled':''}
 >
     Add Contact
 </Button>
+
+// Part-2:- Edit Update ( length 2:23:39 )
+// =============================================================
+// 19. profession area selec tor add korbo so bootstrap thake nibo and baki golor mot ovalidate korbo.  
+
+<Form.Group as={Row} className="mb-3">
+<Col sm={3}>
+    <Form.Label htmlFor='profession' column>
+    Profession
+    </Form.Label>
+</Col>
+<Col sm={9}>
+<Form.Select
+ {...register('profession')} 
+ id='profession'
+ defaultValue={profession}
+ aria-label="Select your profession"
+ isInvalid={errors?.profession}
+ >
+    <option value='' disabled>Select Your Profession</option>
+    <option value="developer">Developer</option>
+    <option value="designer">Designer</option>
+    <option value="marketer">Marketer</option>
+    </Form.Select>
+    <Form.Control.Feedback type='invalid' >
+        {errors?.profession?.message}
+    </Form.Control.Feedback>
+</Col>
+</Form.Group>
+20. amra from a default value niye bibo jate var var form add korte na hoi.. amader time save hobe
+const defaultValue = {
+  firstName: 'Obaydul',
+  lastName: 'Islam',
+  email: 'obaaydulIslam@gmail.com',
+  profession: 'developer',
+  bio: 'All about myself, Modify of your own if necessary',
+  image: 'https://randomuser.me/api/portraits/men/78.jpg',
+}
+const {firstName, lastName, email, profession, bio, image} = defaultValue
+
+
+
+
+
+
+
+
+
+
+
+
+
