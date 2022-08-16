@@ -1,11 +1,11 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {Form, Button, Col, Row} from 'react-bootstrap'
 import * as yup from 'yup';
-import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const schema = yup.object({
     firstName: yup
@@ -103,7 +103,10 @@ export default function AddContact({addContact}) {
     //     addContact(contact)
     // }
     const onSubmit = data => {
-        console.log(data)
+        //show flash message
+        toast.success('Contact is added Successfully')
+        //adding contacts
+        addContact(data)
     }
 
     // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact

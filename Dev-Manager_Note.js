@@ -23,6 +23,7 @@
  *    4.  yup for showing error         ->    https://www.npmjs.com/package/yup
  *      react hook form and yup install:  yarn add react-hook-form yup
  *      npm install @hookform/resolvers yup
+ * 5. react toastify github pages  -> https://fkhadra.github.io/react-toastify/introduction/
  * 
  * 
  */
@@ -696,7 +697,24 @@ const defaultValue = {
 }
 const {firstName, lastName, email, profession, bio, image} = defaultValue
 
+21. addContact a contact golo add korbo. submit ar modde data golo past kore dibo
+  const onSubmit = data => {
+    addContact(data)
+  }
 
+  এখন একটা ইরোর আসবে একটা object কে jsx এর মধ্য carly bases এর মধ্য লিখতে পারবো না। একটা object direct expresson না। 
+  date niye kaj korle ekto jamela hoi... date formate korar jonno amader date-fns dakte hobe amra datepicker install korese datepicker ar sate date-fns add kora ase.
+
+// Contact.jsx 
+  <ListGroup.Item>Date of Birth: {' '} 
+  {dateOfBirth instanceof Object 
+  ? format(dateOfBirth,'dd/MM/yyyy'): dateOfBirth}
+  </ListGroup.Item>
+
+  আমরা App.jsx এর মধ্য ডাটা গুলোর মধ্য  id নাম্বার হিসাবে আছে তাই আমরা id স্টিং করে দিব। 
+
+  22. sucess message দেখানোর জন্য আমরা react toastify github pages এখান থেকে এটা ইন্সটল করে এড করে নিব । index.jsx file a css import korbo & and App.jsx file a ToastContainer import korbo.
+  amora jekhane toast message dakabo sekhan tost add korbo. amora AddContact a toast msg dakhabo tai sekhane toast import korbo
 
 
 
