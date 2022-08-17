@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
-import AddContact from './contacts/AddContact';
-import Contacts from './contacts/Contacts';
+import AddContact from './pages/AddContact';
+import Contacts from './pages/Contacts';
 import Header from './layouts/Header';
 import Home from './pages/Home'
 import Register from './pages/Register'
-import Login from './pages/Login'
+import Login from './pages/Login' 
 import NotFound from './pages/NotFound'
 import EditContact from './pages/EditContact'
 
@@ -135,7 +135,7 @@ function App() {
             path='/contacts'
             element={
               <Contacts contacts={contacts} deleteContact={deleteContact}/>
-            } 
+            }  
             />
             <Route path='/add-contact' element={<AddContact addContact={addContact}/>} />
             <Route path='/edit-contact' element={<EditContact />} />

@@ -1,10 +1,8 @@
 import React from 'react'
 import ContactForm from '../components/contacts/ContactForm'
 
-
-function EditContact() {
-
+function AddContact() {
   return <ContactForm />
 }
 
-export default EditContact;
+export default AddContact

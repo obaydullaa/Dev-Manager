@@ -717,7 +717,7 @@ const {firstName, lastName, email, profession, bio, image} = defaultValue
   amora jekhane toast message dakabo sekhan tost add korbo. amora AddContact a toast msg dakhabo tai sekhane toast import korbo.
 
 // App.js ->
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify'
 
 return (
   <> 
@@ -736,7 +736,7 @@ return (
 )
 //AddContact.jsx
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 const onSubmit = data => {
   //show flash message
@@ -745,10 +745,24 @@ const onSubmit = data => {
   addContact(data)
 }
 
-23. install react router dom and import  করব । আমরা Header.jsx এ Link এড না করে NavLink এড করব এর কারণ NavLink মেনু তে একটা একটিভ ক্লাস এড করবে । আমাদের প্রোজনে কিছু পেজ নিয়েছি । সেগুলো মেনু তে এড করেছি, এবং রাউটিং করেছি ।
+23. install react router dom and import  করবimport EditContact from './src/pages/EditContact'
+ । আমরা Header.jsx এ Link এড না করে NavLink এড করব এর কারণ NavLink মেনু তে একটা একটিভ ক্লাস এড করবে । আমাদের প্রোজনে কিছু পেজ নিয়েছি । সেগুলো মেনু তে এড করেছি, এবং রাউটিং করেছি ।
+ contacts :-
+      AddContact.jsx
+      Contact.jsx
+      Contacts.jsx
 
+pages :-
+    Home.jsx
+    EdditContact.jsx
+    Login.jsx
+    NotFound.jsx
+    Register.jsx
+    App.jsx
 
+EditContact.jsx এ আমরা AddContact.jsx এর মত ফর্ম লাগবে আমরা AddContact.jsx এর ফর্ম ইউজ করব, কিন্তু কপি পেস্ট করব না ।   
 
+আমরা EditContact এর path আসলে এটা না <Route path='/edit-contact' element={<EditContact />} /> আমরা এভাবে path='/edit-contact:id' এভাবে ভ্যারিএবল এর মত করে নিতে পারি । 
 
 
 
