@@ -4,9 +4,16 @@ import React from 'react'
 import {Button, Card, ListGroup} from 'react-bootstrap'
 import {FaEye, FaRegTrashAlt} from 'react-icons/fa'
 import {format} from 'date-fns'
+import {toast} from 'react-toastify'
 
 export default function Contact({contact, deleteContact}) {
     const {id, firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact
+
+    const handleDelete = (id) => {
+        toast.success('Contact is Deleted Successfully')
+        deleteContact(id)
+    }
+
   return (
     <>
         <Card className='mb-4'>
@@ -33,7 +40,7 @@ export default function Contact({contact, deleteContact}) {
                                 </Button>
                                 </Card.Link>
                                 <Card.Link>
-                                <Button variant='danger ms-3' size='md' onClick={() => deleteContact(id)}>
+                                <Button variant='danger ms-3' size='md' onClick={() => handleDelete(id)}>
                                     <FaRegTrashAlt />
                                 </Button>
                             </Card.Link>

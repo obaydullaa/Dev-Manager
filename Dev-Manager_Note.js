@@ -840,7 +840,7 @@ const onSubmit = data => {
 }
 
 
-
+27. আমরা এখন contact delete ar flash message add korbo. সো এখন আমরা Contact.jsx Filer button ar eventlistener ar name change korbo... handleDelet namdibo.
 
 
 
