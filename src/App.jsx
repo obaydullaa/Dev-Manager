@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import Header from './layouts/Header';
 import AddContact from './pages/AddContact';
 import Contacts from './pages/Contacts';
-import Header from './layouts/Header';
-import Home from './pages/Home'
-import Register from './pages/Register'
-import Login from './pages/Login' 
-import NotFound from './pages/NotFound'
-import EditContact from './pages/EditContact'
+import EditContact from './pages/EditContact';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
+import Register from './pages/Register';
 
 const initialContacts = [
   {
@@ -20,7 +20,7 @@ const initialContacts = [
     lastName: 'Pfertner',
     email: 'bpfertner0@drupal.org',
     profession: 'Web Developer',
-    gender: 'Female',
+    gender: 'female',
     image: 'https://randomuser.me/api/portraits/women/75.jpg',
     dateOfBirth: '05/11/2021',
     bio: 'All About me',
@@ -32,7 +32,7 @@ const initialContacts = [
     email: 'imcphilip1@toplist.cz',
     profession: 'Software Developer',
 
-    gender: 'Male',
+    gender: 'male',
     image: 'https://randomuser.me/api/portraits/men/75.jpg',
     dateOfBirth: '04/04/2022',
     bio: 'All About me',
@@ -44,7 +44,7 @@ const initialContacts = [
     email: 'fveel2@yellowbook.com',
     profession: 'Graphic Designer',
 
-    gender: 'Male',
+    gender: 'male',
     image: 'https://randomuser.me/api/portraits/men/78.jpg',
     dateOfBirth: '17/05/2022',
     bio: 'All About me',
@@ -55,7 +55,7 @@ const initialContacts = [
     lastName: 'Lawrenz',
     email: 'slawrenz3@independent.co.uk',
     profession: 'Data entry specialist',
-    gender: 'Female',
+    gender: 'female',
     image: 'https://randomuser.me/api/portraits/women/80.jpg',
     dateOfBirth: '30/07/2022',
     bio: 'All About me',
@@ -65,7 +65,7 @@ const initialContacts = [
     firstName: 'Bucky',
     lastName: 'Casaccio',
     email: 'bcasaccio4@netlog.com',
-    gender: 'Male',
+    gender: 'male',
     profession: 'Data scientist',
     image: 'https://randomuser.me/api/portraits/men/56.jpg',
     dateOfBirth: '21/03/2022',
@@ -77,7 +77,7 @@ const initialContacts = [
     lastName: 'Lodford',
     email: 'rlodford5@nbcnews.com',
     profession: 'python Developer',
-    gender: 'Female',
+    gender: 'female',
     image: 'https://randomuser.me/api/portraits/women/81.jpg',
     dateOfBirth: '16/01/2022',
     bio: 'All About me',
@@ -87,7 +87,7 @@ const initialContacts = [
     firstName: 'Hubert',
     lastName: 'Langhorne',
     email: 'hlanghorne6@thetimes.co.uk',
-    gender: 'Male',
+    gender: 'male',
     profession: 'CPA Marketer',
     image: 'https://randomuser.me/api/portraits/men/80.jpg',
     dateOfBirth: '05/02/2022',
@@ -101,6 +101,10 @@ function App() {
   const deleteContact = (id) => {
     const updatedContact = contacts.filter((contact) => contact.id !== id)
     setContacts(updatedContact)
+  }
+
+  const updatecontact = (contact, id) => {
+    console.log(contact, id)
   }
 
   const addContact = contact => {
@@ -138,7 +142,7 @@ function App() {
             }  
             />
             <Route path='/add-contact' element={<AddContact addContact={addContact}/>} />
-            <Route path='/edit-contact' element={<EditContact />} />
+            <Route path='/edit-contact/:id' element={<EditContact contacts={contacts} updatecontact={updatecontact} />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login/>} />      
             <Route path='*' element={<NotFound/>} />

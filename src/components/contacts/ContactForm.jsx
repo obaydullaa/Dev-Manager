@@ -36,7 +36,7 @@ const schema = yup.object({
     .url('Must be a valid URL'),
   })
 
-export default function AddContact({addContact}) {
+ function ContactForm({addContact, contact, updatedContact}) {
     // const [contact, setContact] = useState({
     //     firstName: '',
     //     lastName: '',
@@ -47,28 +47,29 @@ export default function AddContact({addContact}) {
     //     gender: 'male',
     //     image: '',
     // })  
-   const [birthYear, setBirthYear] = useState(new Date())
-
+    console.log(contact)
     const { 
         register, 
-        handleSubmit, 
-        watch, 
+        handleSubmit,
         setValue,
         reset,
         formState:{ errors, isSubmitting, isSubmitSuccessful },
-     } = useForm({
+    } = useForm({
         resolver: yupResolver(schema),
-     });
+    });
+    const [birthYear, setBirthYear] = useState(new Date())
     
     const defaultValue = {
-        firstName: 'Obaydul',
-        lastName: 'Islam',
-        email: 'obaaydulIslam@gmail.com',
-        profession: 'developer',
-        bio: 'All about myself, Modify of your own if necessary',
-        image: 'https://randomuser.me/api/portraits/men/78.jpg',
+        firstName: contact?.firstName || 'Obaydul',
+        lastName:  contact?.lastName ||'Islam',
+        gender: contact?.gender || 'male',
+        email: contact?.email || 'obaaydulIslam@gmail.com',
+        profession: contact?.profession || 'developer',
+        bio: contact?.bio || 'All about myself, Modify of your own if necessary',
+        image: contact?.image || 'https://randomuser.me/api/portraits/men/78.jpg',
+        dateOfBirth: contact?.dateOfBirth || new Date(),
     }
-    const {firstName, lastName, email, profession, bio, image} = defaultValue
+    const {firstName, lastName, email, profession, bio, image, gender} = defaultValue
 
     useEffect(() => {
         if(isSubmitSuccessful) {
@@ -112,7 +113,7 @@ export default function AddContact({addContact}) {
     // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact
   return (
     <>
-        <h2 className='text-center mb-5'>Add Contact</h2>
+        <h2 className='text-center mb-5'>{contact?.id? 'Edit Contact' : 'Add Contact'}</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group as={Row} className="mb-3">
                 <Col sm={3}>
@@ -248,7 +249,7 @@ export default function AddContact({addContact}) {
                     type="radio" 
                     label='Male'
                     value='male'
-                    defaultChecked={true}
+                    defaultChecked={gender === 'male'}
                     {...register('gender')}
                     />
                     </Col>
@@ -257,6 +258,7 @@ export default function AddContact({addContact}) {
                     type="radio" 
                     label='Female'
                     value='female'
+                    defaultChecked={gender === 'female'}
                     {...register('gender')}
                     />  
                 </Col>
@@ -287,9 +289,10 @@ export default function AddContact({addContact}) {
             type='submit'
             disabled={isSubmitting? 'disabled':''}
             >
-                Add Contact
+                {contact?.id? 'Update Contact' : 'Add Contact'}
             </Button>
         </Form>
     </>
   )
 }
+export default ContactForm;
