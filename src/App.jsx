@@ -103,8 +103,18 @@ function App() {
     setContacts(updatedContact)
   }
 
-  const updatecontact = (contact, id) => {
-    console.log(contact, id)
+  const updatecontact = (contactToUpdate, id) => {
+    const contactsWithUpdate = contacts.map(contact => {
+      if(contact.id === id) {
+        //Update
+        return {
+          ...contactToUpdate,
+        }
+      }else {
+        return contact;
+      }
+    })
+    setContacts(contactsWithUpdate)
   }
 
   const addContact = contact => {

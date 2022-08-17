@@ -745,7 +745,8 @@ const onSubmit = data => {
   addContact(data)
 }
 
-23. install react router dom and import  করবimport EditContactimport ContactForm from './src/components/contacts/ContactForm'
+23. install react router dom and import  করবimport EditContactimportimport { useNavigate } from 'react-router-dom'
+ ContactForm from './src/components/contacts/ContactForm'
  from './src/pages/EditContact'
  । আমরা Header.jsx এ Link এড না করে NavLink এড করব এর কারণ NavLink মেনু তে একটা একটিভ ক্লাস এড করবে । আমাদের প্রোজনে কিছু পেজ নিয়েছি । সেগুলো মেনু তে এড করেছি, এবং রাউটিং করেছি ।
  contacts :-
@@ -781,7 +782,7 @@ return <ContactForm contact={foundContact} />
 
 আমরা এখব update করব । আমাদের ডাটা গুলো আছে Apps.jsx file a. তাই এখান থেকে ডাটা গুলো পাঠাতে হবে এজন্য এখানেই function nibo. এবং props হিসাবে EditContactjsx এ পাঠাবো । EditContactjsx এ রিসিভ করে ContactForm এ props হিসাবে পাঠাবো । 
 
-ContactForm component এ আমরা AddContact.jsx Or EditContact.jsx থেকে আসতেছে সেটা বুঝার জন্য আমরা  return <ContactForm contact={foundContact} updatedContact={updatedContact} /> component pass করছি ।  AddContact.jsx থেকে আমরা কোন component পাঠাচ্ছি না। 
+ContactForm component এ আমরা AddContact.jsx Or EditContact.jsx থেকে আসতেছে সেটা বুঝার জন্য আমরা  return <ContactForm contact={foundContact} updatecontact={updatecontact} /> component pass করছি ।  AddContact.jsx থেকে আমরা কোন component পাঠাচ্ছি না। 
 
 এর পর defaultValue এর সাথে এড করে দিব। contact থেকে ডাটা আসলে সে গুলো পাবো তা না হলে defaultValue এর ডাট পাবে । 
 
@@ -809,3 +810,41 @@ return (
 
       {contact?.id? 'Update Contact' : 'Add Contact'}
   </Button>
+// 26. App.jsx --> 
+ ফাইলে আসার পরে colsole এ দেখব যে ডাটা রিসেট হয়েছে । এবং আপডেট contact peyechi.Add  
+ const updatecontact = (contact, id) => {
+  console.log(contact, id)
+}
+
+26. Contact edit & update korar pore amader nevigate korte hoi..programicaly navigar korte chaile "react router dom "  useNavigate use korte hobe. ContactForm.jsx a import korbo.
+
+// ContactForm.jsx
+import {useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate()
+
+const onSubmit = data => {
+  const id = contact?.id
+  //show flash message
+  
+  //adding contacts
+  if(id) {
+      toast.success('Contact is Updated Successfully')
+      updatecontact(data, id)
+  }else {
+      toast.success('Contact is Added Successfully')
+      addContact(data)
+  }
+
+   navigate('/contacts') //this
+}
+
+
+
+
+
+
+
+
+
+

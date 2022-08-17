@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {Form, Button, Col, Row} from 'react-bootstrap'
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import {useNavigate } from 'react-router-dom';
 
 const schema = yup.object({
     firstName: yup
@@ -36,7 +37,7 @@ const schema = yup.object({
     .url('Must be a valid URL'),
   })
 
- function ContactForm({addContact, contact, updatedContact}) {
+ function ContactForm({addContact, contact, updatecontact}) {
     // const [contact, setContact] = useState({
     //     firstName: '',
     //     lastName: '',
@@ -47,7 +48,6 @@ const schema = yup.object({
     //     gender: 'male',
     //     image: '',
     // })  
-    console.log(contact)
     const { 
         register, 
         handleSubmit,
@@ -58,6 +58,8 @@ const schema = yup.object({
         resolver: yupResolver(schema),
     });
     const [birthYear, setBirthYear] = useState(new Date())
+    
+    const navigate = useNavigate()
     
     const defaultValue = {
         firstName: contact?.firstName || 'Obaydul',
@@ -104,10 +106,19 @@ const schema = yup.object({
     //     addContact(contact)
     // }
     const onSubmit = data => {
+        const id = contact?.id
         //show flash message
-        toast.success('Contact is added Successfully')
+        
         //adding contacts
-        addContact(data)
+        if(id) {
+            toast.success('Contact is Updated Successfully')
+            updatecontact(data, id)
+        }else {
+            toast.success('Contact is Added Successfully')
+            addContact(data)
+        }
+
+         navigate('/contacts')
     }
 
     // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact
