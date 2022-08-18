@@ -5,6 +5,7 @@ import {Button, Card, ListGroup} from 'react-bootstrap'
 import {FaEye, FaRegTrashAlt} from 'react-icons/fa'
 import {format} from 'date-fns'
 import {toast} from 'react-toastify'
+import {Link} from 'react-router-dom'
 
 export default function Contact({contact, deleteContact}) {
     const {id, firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact
@@ -34,7 +35,7 @@ export default function Contact({contact, deleteContact}) {
                             </ListGroup.Item>
                         </ListGroup>
                         <div className="card-btn mt-3">
-                            <Card.Link href="#">
+                            <Card.Link as={Link} to={`/contacts/${id}`}>
                                 <Button variant='warning ms-3' size='md' type='view'>
                                     <FaEye />
                                 </Button>

@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
+import ContactDetails from './pages/ContactDetails';
 
 const initialContacts = [
   {
@@ -148,10 +149,11 @@ function App() {
             <Route 
             path='/contacts'
             element={
-              <Contacts contacts={contacts} deleteContact={deleteContact}/>
+              <Contacts contacts={contacts} deleteContact={deleteContact} />
             }  
             />
             <Route path='/add-contact' element={<AddContact addContact={addContact}/>} />
+            <Route path='/contacts/:id' element={<ContactDetails contacts={contacts} deleteContact={deleteContact} />} />
             <Route path='/edit-contact/:id' element={<EditContact contacts={contacts} updatecontact={updatecontact} />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login/>} />      

@@ -842,9 +842,23 @@ const onSubmit = data => {
 
 27. আমরা এখন contact delete ar flash message add korbo. সো এখন আমরা Contact.jsx Filer button ar eventlistener ar name change korbo... handleDelet namdibo.
 
+// Contact.jsx 
+import {toast} from 'react-toastify'
 
+const handleDelete = (id) => {
+  toast.success('Contact is Deleted Successfully')
+  deleteContact(id)
+}
 
+28. Eye icon a click korle single contact open hobe. Route bebar ta deal korte hobe.
 
+// App.jsx ->
+<Route path='/contact/:id' element={<ContactDetails contacts={contacts} />} />
 
+create ContactDetails compoent 
 
+// ContactDetails.jsx  ->
+Copy card from Contac.jsx
 
+// 29. ContactDetails.jsx -->
+get state --> const [contact, setContact] = useState({})
