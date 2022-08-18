@@ -37,7 +37,7 @@ const schema = yup.object({
     .url('Must be a valid URL'),
   })
 
- function ContactForm({addContact, contact, updatecontact}) {
+ function ContactForm({addContact, contact, updateContact}) {
     // const [contact, setContact] = useState({
     //     firstName: '',
     //     lastName: '',
@@ -105,14 +105,14 @@ const schema = yup.object({
     //     //Form Submission
     //     addContact(contact)
     // }
-    const onSubmit = data => {
+    const onSubmit = (data) => {
         const id = contact?.id
         //show flash message
         
         //adding contacts
         if(id) {
             toast.success('Contact is Updated Successfully')
-            updatecontact(data, id)
+            updateContact(data, id)
         }else {
             toast.success('Contact is Added Successfully')
             addContact(data)

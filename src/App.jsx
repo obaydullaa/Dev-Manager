@@ -104,11 +104,12 @@ function App() {
     setContacts(updatedContact)
   }
 
-  const updatecontact = (contactToUpdate, id) => {
+  const updateContact = (contactToUpdate, id) => {
     const contactsWithUpdate = contacts.map(contact => {
       if(contact.id === id) {
         //Update
         return {
+          id,
           ...contactToUpdate,
         }
       }else {
@@ -154,7 +155,7 @@ function App() {
             />
             <Route path='/add-contact' element={<AddContact addContact={addContact}/>} />
             <Route path='/contacts/:id' element={<ContactDetails contacts={contacts} deleteContact={deleteContact} />} />
-            <Route path='/edit-contact/:id' element={<EditContact contacts={contacts} updatecontact={updatecontact} />} />
+            <Route path='/edit-contact/:id' element={<EditContact contacts={contacts} updateContact={updateContact} />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login/>} />      
             <Route path='*' element={<NotFound/>} />
