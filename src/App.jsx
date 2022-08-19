@@ -6,13 +6,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import Header from './layouts/Header';
 import AddContact from './pages/AddContact';
+import ContactDetails from './pages/ContactDetails';
 import Contacts from './pages/Contacts';
 import EditContact from './pages/EditContact';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
-import ContactDetails from './pages/ContactDetails';
 
 const initialContacts = [
   {
@@ -116,12 +116,13 @@ function App() {
         return contact;
       }
     })
+    
     setContacts(contactsWithUpdate)
   }
 
-  const addContact = contact => {
+  const addContact = (contact) => {
     let contactToAdd = {
-      id: uuidv4,
+      id: uuidv4(),
       ...contact,
     }
     setContacts([contactToAdd, ...contacts])

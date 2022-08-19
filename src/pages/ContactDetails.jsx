@@ -31,7 +31,9 @@ function ContactDetails({contacts,deleteContact}) {
     return (
         <>
             <h2 className='text-center mb-4'>Contact Details</h2>
-            {Object.keys(contact).length === 0 ? <p>No Contact to Show</p>:
+            {Object.keys(contact).length === 0 ? (
+                 <p>No Contact to Show</p>
+            ) : (
              <Card className='mb-4'>
              <div className='d-flex'>
                  <Card.Img className='card-img' src={image} />
@@ -50,12 +52,12 @@ function ContactDetails({contacts,deleteContact}) {
                              </ListGroup.Item>
                          </ListGroup>
                          <div className="card-btn mt-3">
-                             <Card.Link as={Link} to={`/edit-contact/$(id)`}>
+                             <Card.Link as={Link} to={`/edit-contact/${id}`}>
                                  <Button variant='warning ms-3' size='md' type='view'>
                                      <FaPencilAlt />
                                  </Button>
-                                 </Card.Link>
-                                 <Card.Link>
+                            </Card.Link>
+                            <Card.Link>
                                  <Button variant='danger ms-3' size='md' onClick={() => handleDelete(id)}>
                                      <FaRegTrashAlt />
                                  </Button>
@@ -64,6 +66,7 @@ function ContactDetails({contacts,deleteContact}) {
                      </Card.Body>
              </div>
          </Card>
+        )
         
         }
            

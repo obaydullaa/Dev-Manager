@@ -89,7 +89,6 @@ const schema = yup.object({
       useEffect(() => {
         setValue('dateOfBirth', birthYear)
        },[birthYear]) 
-
     // const handleChange = (evt) => {
     //     setContact({
     //         ...contact,
@@ -107,17 +106,17 @@ const schema = yup.object({
     // }
     const onSubmit = (data) => {
         const id = contact?.id
-        //show flash message
         
+        //show flash message
         //adding contacts
         if(id) {
             toast.success('Contact is Updated Successfully')
             updateContact(data, id)
         }else {
             toast.success('Contact is Added Successfully')
+            
             addContact(data)
         }
-
          navigate('/contacts')
     }
 
