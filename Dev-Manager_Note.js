@@ -862,3 +862,11 @@ Copy card from Contac.jsx
 
 // 29. ContactDetails.jsx -->
 get state --> const [contact, setContact] = useState({})
+
+
+
+/**
+ * Appluing Context API ( 49.09 minute )
+ * ================================================================================
+ */
+

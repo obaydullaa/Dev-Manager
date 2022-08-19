@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Container } from 'react-bootstrap';
@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
+import {ContactContext} from './context/Contact.context'
 
 const initialContacts = [
   {
@@ -97,6 +98,10 @@ const initialContacts = [
 ]
 
 function App() {
+const context = useContext(ContactContext)
+console.log(context)
+
+
   const [contacts, setContacts] = useState(initialContacts)
 
   const deleteContact = (id) => {
