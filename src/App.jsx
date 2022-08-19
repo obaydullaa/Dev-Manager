@@ -13,7 +13,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
-import {ContactContext} from './context/Contact.context'
 
 const initialContacts = [
   {
@@ -98,11 +97,8 @@ const initialContacts = [
 ]
 
 function App() {
-const context = useContext(ContactContext)
-console.log(context)
-
-
   const [contacts, setContacts] = useState(initialContacts)
+
 
   const deleteContact = (id) => {
     const updatedContact = contacts.filter((contact) => contact.id !== id)
