@@ -898,6 +898,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 //Step: 3 :-
+import { useContext, useState } from 'react';
+
 function App() {
   const context = useContext(ContactContext)
   console.log(context)
