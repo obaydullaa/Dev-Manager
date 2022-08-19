@@ -94,9 +94,36 @@ export const ContactProvider = ({children}) => {
         setContacts(updatedContact)
       }
 
+      const updateContact = (contactToUpdate, id) => {
+        const contactsWithUpdate = contacts.map(contact => {
+          if(contact.id === id) {
+            //Update
+            return {
+              id,
+              ...contactToUpdate,
+            }
+          }else {
+            return contact;
+          }
+        })
+        
+        setContacts(contactsWithUpdate)
+      }
+    
+      const addContact = (contact) => {
+        let contactToAdd = {
+          id: uuidv4(),
+          ...contact,
+        }
+        setContacts([contactToAdd, ...contacts])
+      }
+
+
    const value = {
         contacts,
         deleteContact,
+        updateContact,
+        addContact,
     }
 
 
