@@ -118,18 +118,18 @@ function ContactForm({ addContact, contact, updateContact }) {
   // }
   const onSubmit = (data) => {
     const id = contact?.id;
-
+   console.log(data)
     //show flash message
     //adding contacts
-    if (id) {
-      toast.success("Contact is Updated Successfully");
-      updateContact(data, id);
-    } else {
-      toast.success("Contact is Added Successfully");
+    // if (id) {
+    //   toast.success("Contact is Updated Successfully");
+    //   updateContact(data, id);
+    // } else {
+    //   toast.success("Contact is Added Successfully");
 
-      addContact(data);
-    }
-    navigate("/contacts");
+    //   addContact(data);
+    // }
+    // navigate("/contacts");
   };
 
   // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact
@@ -254,8 +254,9 @@ function ContactForm({ addContact, contact, updateContact }) {
           errors={errors}
           register={register}
           defaultValue={bio}
+          as='textarea'
         />
-        <Form.Group as={Row} className="mb-3">
+        {/* <Form.Group as={Row} className="mb-3">
           <Col sm={3}>
             <Form.Label htmlFor="bio" column>
               Bio
@@ -274,7 +275,7 @@ function ContactForm({ addContact, contact, updateContact }) {
               {errors?.bio?.message}
             </Form.Control.Feedback>
           </Col>
-        </Form.Group>
+        </Form.Group> */}
         <Button
           className="text-center"
           variant="primary"

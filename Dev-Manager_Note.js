@@ -1099,7 +1099,7 @@ return (
 )
 }
 /**
- * class: 17.1 ( advance hook useReducer())
+ * class: 17.1 ( advance hook useReducer()) 46 minute
  *==============================================================================
  */
 
@@ -1203,4 +1203,8 @@ export const ContactProvider = ({children}) => {
     }
 
 
-
+/**
+ * class: 17.2 Authentication
+ * =================================================
+ */
+ Authentication meaning - 1. Registration 2.Login 3.Logout

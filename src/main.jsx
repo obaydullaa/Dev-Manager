@@ -26,9 +26,16 @@ import {ContactProvider} from './context/Contact.context'
  */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ 
     <ContactProvider>
       <App />
     </ContactProvider>
-  </React.StrictMode>
 )
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//   <React.StrictMode>
+//     <ContactProvider>
+//       <App />
+//     </ContactProvider>
+//   </React.StrictMode>
+// )
