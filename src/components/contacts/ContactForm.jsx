@@ -1,12 +1,11 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import {Form, Button, Col, Row} from 'react-bootstrap'
-import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
 import FormTextInput from '../../layouts/FormTextInput';
 
 const schema = yup.object({
@@ -58,7 +57,6 @@ const schema = yup.object({
     } = useForm({
         resolver: yupResolver(schema),
     });
-    const [birthYear, setBirthYear] = useState(new Date())
     
     const navigate = useNavigate()
     
@@ -72,7 +70,8 @@ const schema = yup.object({
         image: contact?.image || 'https://randomuser.me/api/portraits/men/78.jpg',
         dateOfBirth: contact?.dateOfBirth || new Date(),
     }
-    const {firstName, lastName, email, profession, bio, image, gender} = defaultValue
+    const {firstName, lastName, email, profession, bio, image, gender, dateOfBirth} = defaultValue
+    const [birthYear, setBirthYear] = useState(dateOfBirth ? dateOfBirth : new Date()) 
 
     useEffect(() => {
         if(isSubmitSuccessful) {

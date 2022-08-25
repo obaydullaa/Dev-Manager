@@ -872,7 +872,7 @@ get state --> const [contact, setContact] = useState({})
 
 // Step: 1:-
 
-আমরা Contact এ Context API use করন। এই জন্য scr folder এ Contact.context.jsx নামের কমোনেট নিব।
+আমরা Contact এ Context API use করব। এই জন্য scr folder এ Contact.context.jsx নামের component নিব।
 src->context -> Contact.context.jsx : -->
 
 import { createContext } from "react";
@@ -887,6 +887,7 @@ export const ContactProvider = ({children}) => {
 }
 
 // Step: 2:-
+
 import {ContactProvider} from './context/Contact.context'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
