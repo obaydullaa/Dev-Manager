@@ -13,7 +13,7 @@ const initialContacts = [
       profession: 'Web Developer',
       gender: 'female',
       image: 'https://randomuser.me/api/portraits/women/75.jpg',
-      dateOfBirth: '05/11/2021',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -25,7 +25,7 @@ const initialContacts = [
   
       gender: 'male',
       image: 'https://randomuser.me/api/portraits/men/75.jpg',
-      dateOfBirth: '04/04/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -37,7 +37,7 @@ const initialContacts = [
   
       gender: 'male',
       image: 'https://randomuser.me/api/portraits/men/78.jpg',
-      dateOfBirth: '17/05/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -48,7 +48,7 @@ const initialContacts = [
       profession: 'Data entry specialist',
       gender: 'female',
       image: 'https://randomuser.me/api/portraits/women/80.jpg',
-      dateOfBirth: '30/07/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -59,7 +59,7 @@ const initialContacts = [
       gender: 'male',
       profession: 'Data scientist',
       image: 'https://randomuser.me/api/portraits/men/56.jpg',
-      dateOfBirth: '21/03/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -70,7 +70,7 @@ const initialContacts = [
       profession: 'python Developer',
       gender: 'female',
       image: 'https://randomuser.me/api/portraits/women/81.jpg',
-      dateOfBirth: '16/01/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
     {
@@ -81,7 +81,7 @@ const initialContacts = [
       gender: 'male',
       profession: 'CPA Marketer',
       image: 'https://randomuser.me/api/portraits/men/80.jpg',
-      dateOfBirth: '05/02/2022',
+      dateOfBirth: new Date(),
       bio: 'All About me',
     },
   ]

@@ -1098,3 +1098,28 @@ return (
   </>
 )
 }
+/**
+ * class: 17.1 ( advance hook useReducer())
+ *
+ */
+
+1. ডেট পিকার এর ডেট পরিবর্তন করলে ডেট আপডেট হচ্চে কিন্তু আমাদের AddContact.jsx form এ ডেট পরবর্ত্ন হচ্ছে না । এটা সল্ভ করার জন্য আমরা আমাদের data initialContacts variable এর ডেট strin hisabe ase. sei golo new Date() kore dib. 
+
+// Contact.context.jsx :--->
+old : dateOfBirth: '25/08/2022'  update -> dateOfBirth: new Date(),
+
+// ContactForm.jsx : -->
+const {
+  firstName,
+  lastName,
+  email,
+  profession,
+  bio,
+  image,
+  gender,
+  dateOfBirth, // this
+} = defaultValue;
+
+const [birthYear, setBirthYear] = useState(
+  dateOfBirth ? dateOfBirth : new Date()  // this
+);
