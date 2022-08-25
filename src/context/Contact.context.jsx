@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
-import {v4 as uuidv4} from 'uuid'
-
+import { createContext, useReducer } from "react";
+import contactsReducer from "../components/contacts/reduce";
+import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT } from "../components/contacts/types";
 // create context
 export const ContactContext = createContext()
 
@@ -88,35 +88,19 @@ const initialContacts = [
 
 // create provider
 export const ContactProvider = ({children}) => {
-    const [contacts, setContacts] = useState(initialContacts)
+
+    const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
 
     const deleteContact = (id) => {
-        const updatedContact = contacts.filter((contact) => contact.id !== id)
-        setContacts(updatedContact)
+        dispatch({type: DELETE_CONTACT, payload: id})
       }
 
       const updateContact = (contactToUpdate, id) => {
-        const contactsWithUpdate = contacts.map(contact => {
-          if(contact.id === id) {
-            //Update
-            return {
-              id,
-              ...contactToUpdate,
-            }
-          }else {
-            return contact;
-          }
-        })
-        
-        setContacts(contactsWithUpdate)
+        dispatch({type: UPDATE_CONTACT, payload: {contactToUpdate, id}})
       }
     
       const addContact = (contact) => {
-        let contactToAdd = {
-          id: uuidv4(),
-          ...contact,
-        }
-        setContacts([contactToAdd, ...contacts])
+        dispatch({type: ADD_CONTACT, payload: contact})
       }
 
 

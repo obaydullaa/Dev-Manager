@@ -140,7 +140,7 @@
   4. এখন আমরা contacts গুলো দেখাবো এই জন্য লুপ করব। যেহেতু লুপ এবং পেজিনেশন করব সেই জন্য আমরা আরেকটা contact নামে কম্পোনেট নিব । সেখানে contact গুলো রাখব ।  
     // Contacts.jsx
     // ==================
-    import { default as React, default as React, useState } from 'react'
+    import { default as React, default as React, useReducer, useState } from 'react'
 import Contact from './Contact'
 
     export default function Contacts({contacts}) {
@@ -1100,7 +1100,7 @@ return (
 }
 /**
  * class: 17.1 ( advance hook useReducer())
- *
+ *==============================================================================
  */
 
 1. ডেট পিকার এর ডেট পরিবর্তন করলে ডেট আপডেট হচ্চে কিন্তু আমাদের AddContact.jsx form এ ডেট পরবর্ত্ন হচ্ছে না । এটা সল্ভ করার জন্য আমরা আমাদের data initialContacts variable এর ডেট strin hisabe ase. sei golo new Date() kore dib. 
@@ -1123,3 +1123,84 @@ const {
 const [birthYear, setBirthYear] = useState(
   dateOfBirth ? dateOfBirth : new Date()  // this
 );
+
+// Contact.context.jsx  :
+2. useReducer  
+
+const contactsReducer (state, action) => {
+
+}
+ state = initialContacts
+ action = dispatch
+// create provider
+export const ContactProvider = ({children}) => {
+
+  const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
+
+  
+// Full Note useReducer  ================ X ===
+// Contact.context.jsx  : ---->
+
+export const DELETE_CONTACT = 'DELETE_CONTACT'
+export const ADD_CONTACT = 'ADD_CONTACT'
+export const UPDATE_CONTACT = 'UPDATE_CONTACT'
+
+
+const contactsReducer = (state, action) => {
+  //state = initialContacts
+  //action = {type: 'DELETE_CONTACT', payload: id}  (dispatch)
+  const {type, payload} = action
+  switch (type){
+    case DELETE_CONTACT:
+    const updatedContacts = state.filter(
+      (contact) => contact.id !== action.payload
+    )
+    return [...updatedContacts]
+
+    case ADD_CONTACT: 
+    const newContact = {
+      id: uuidv4(),
+      ...payload,
+    }
+    return [newContact, ...state ]
+
+    case UPDATE_CONTACT:
+    const {id, contactToUpdate} = payload;
+    const contacts = state.map(contact => {
+      if(contact.id === id) {
+        //Update
+        return {
+          id,
+          ...contactToUpdate,
+        }
+      }else {
+        return contact;
+      }
+    })
+    return [...contacts]
+
+    default:
+      return state;
+  }
+}
+
+
+// create provider
+export const ContactProvider = ({children}) => {
+
+  const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
+
+  const deleteContact = (id) => {
+      dispatch({type: DELETE_CONTACT, payload: id})
+    }
+
+    const updateContact = (contactToUpdate, id) => {
+      dispatch({type: UPDATE_CONTACT, payload: {contactToUpdate, id}})
+    }
+  
+    const addContact = (contact) => {
+      dispatch({type: ADD_CONTACT, payload: contact})
+    }
+
+
+

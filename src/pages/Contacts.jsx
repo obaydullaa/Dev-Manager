@@ -1,6 +1,6 @@
 import React from 'react'
-import { ContactContext } from '../context/Contact.context'
 import Contact from '../components/contacts/Contact'
+import { ContactContext } from '../context/Contact.context'
 
 export default function Contacts({deleteContact}) {
   const {contacts} = React.useContext(ContactContext)
