@@ -1416,3 +1416,185 @@ const {user, jwt} = response.data
     setToken(jwt)
 
   user login obostai thakle refresh korle sob data delete hoye jabe tai local storage save korte hobe.
+
+  const {user, jwt} = response.data
+        // setting data to the localStorage
+        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', JSON.stringify(jwt))
+
+10. register a click korle contact page a niye jabo tai "BrowserRouter" eta App.jsx theke niye Main.jsx a wrapp kore dilam  and use useNavigate dite navigate kora hoise. and sowing toas message.
+//  Auth.contex.jsx -> 
+const navigate = useNavigate()
+  
+toast.success('Registration successfully redirecting...')
+
+//Redirecting the user
+navigate('/contacts')
+
+// Auth.context.jsx --> 
+const registerUser = async (data) => {
+  try {
+      const response = await axiosPublicInstance.post(
+          '/auth/local/register', 
+          data
+          )
+
+      const {user, jwt} = response.data
+      // setting data to the localStorage
+      localStorage.setItem('user', JSON.stringify(user))
+      localStorage.setItem('token', JSON.stringify(jwt))
+      // update state
+      setUser(user)
+      setToken(jwt)
+
+      toast.success('Registration successfully redirecting...')
+
+      //Redirecting the user
+      navigate('/contacts')
+      console.log(response.data)
+  } catch (err){
+      toast.error(err.response?.data?.error?.message)
+  }
+  
+}
+
+
+// all Register.jsx -->
+  import { yupResolver } from '@hookform/resolvers/yup'
+  import React, { useContext } from 'react'
+  import {Form, Button} from 'react-bootstrap'
+  import * as yup from "yup";
+  import {useForm} from 'react-hook-form'
+  import FormTextInput from '../layouts/FormTextInput'
+  import { clearConfigCache } from 'prettier';
+  import { AuthContext } from '../context/Auth.context';
+
+  const schema = yup.object({
+    username: yup
+      .string()
+      .required('username is Required')
+      .min(5, 'username must be 5 or more character in length'),
+    email: yup
+      .string()
+      .email('Must be a valid email')
+      .lowercase()
+      .required('Email is Required'),
+    password: yup
+      .string()
+      .required('password is required')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+        'Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+      ),
+    confirmPassword: yup
+      .string()
+      .required('confirm Password is Required')
+      .oneOf([yup.ref('password')], "confirm password doesn't match"),
+  })
+
+
+  function Register() {
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      isSubmitting,
+    } = useForm({
+      resolver: yupResolver(schema),
+    })
+
+    const {registerUser} = useContext(AuthContext)
+
+    const onSubmit = (data) => {
+      console.log(data)
+      //register user
+      registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+    }
+
+    return (
+      <>
+      <h2 className='text-center mb-5'>Register</h2>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+          <FormTextInput
+            name='username'
+            label='user name'
+            placeholder='Enter Your user name'
+            errors={errors}
+            register={register}
+            defaultValue='Obaydul'
+          />
+          <FormTextInput
+            name='email'
+            label='Email'
+            placeholder='Enter Your Email'
+            errors={errors}
+            register={register}
+            defaultValue='Obaydul@gmail.com'
+          />
+          <FormTextInput
+            name='password'
+            label='password'
+            placeholder='Enter password'
+            errors={errors}
+            register={register}
+            type='password'
+            defaultValue='abcdeFf1@'
+          />
+          <FormTextInput
+            name='confirmPassword'
+            label='confirm Password'
+            placeholder='Confirm password'
+            errors={errors}
+            register={register}
+            type='password'
+            defaultValue='abcdeFf1@'
+          />
+
+          <Button
+            variant='primary'
+            size='md'
+            type='submit'
+            disabled={isSubmitting ? 'disabled' : ''}
+            className='text-center d-inline-block w-auto'
+          >
+            Register
+          </Button>
+        </Form>
+      </>
+    )
+  }
+
+  export default Register
+
+
+11. Loging same as registration... copy and some modified.
+
+12. Logout korte hole localStorage ar all data banis kore dite hobe.
+  // Auth.context.jsx -->
+    const loadedUser = JSON.parse(localStorage.getItem('user'))
+    const loadedToken = JSON.parse(localStorage.getItem('token'))
+
+  export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(loadedUser ? loadedUser : null)
+    const [token, setToken] = useState(loadedToken ? loadedToken : null)
+
+  13  logout hole amader register page & login page bade baki sob page hide korbo
+
+    // Header.jsx -->
+    {user && 
+      <>
+          <Nav.Link as={NavLink} to='/contacts' >Contacts</Nav.Link>
+          <Nav.Link as={NavLink} to='/add-contact' >Add Contact</Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
+      </>
+  }
+  {!user && 
+      <>
+          <Nav.Link as={NavLink} to='/register' >Register</Nav.Link>
+          <Nav.Link as={NavLink} to='/login' >Login</Nav.Link>
+      </>
+  }

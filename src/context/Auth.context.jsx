@@ -1,13 +1,16 @@
-import { createContext, useState } from "react"
-import React from "react"
-import { axiosPublicInstance } from "../config/axios"
+import React, { useEffect, useState } from "react"
+import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
+import { axiosPublicInstance } from "../config/axios"
 
 export const AuthContext = React.createContext()
+    const loadedUser = JSON.parse(localStorage.getItem('user'))
+    const loadedToken = JSON.parse(localStorage.getItem('token'))
 
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null)
-    const [token, setToken] = useState(null)
+    const [user, setUser] = useState(loadedUser ? loadedUser : null)
+    const [token, setToken] = useState(loadedToken ? loadedToken : null)
+    const navigate = useNavigate()
 
     const registerUser = async (data) => {
         try {
@@ -18,15 +21,16 @@ export const AuthProvider = ({children}) => {
 
             const {user, jwt} = response.data
             // setting data to the localStorage
-            // update state
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('token', JSON.stringify(jwt))
-
-
-
+            // update state
             setUser(user)
             setToken(jwt)
 
+            toast.success('Registration successfully redirecting...')
+
+            //Redirecting the user
+            navigate('/contacts')
             console.log(response.data)
         } catch (err){
             toast.error(err.response?.data?.error?.message)
@@ -34,12 +38,41 @@ export const AuthProvider = ({children}) => {
         
     }
 
-    const login = (data) => {
+    const login = async (data) => {
+        try {
+            const response = await axiosPublicInstance.post(
+                '/auth/local',data)
 
+            const {user, jwt} = response.data
+            // setting data to the localStorage
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', JSON.stringify(jwt))
+            // update state
+            setUser(user)
+            setToken(jwt)
+
+            toast.success('Login successfully redirecting...')
+
+            //Redirecting the user
+            navigate('/contacts')
+            console.log(response.data)
+        } catch (err){
+            toast.error(err.response?.data?.error?.message)
+        }
     }
 
     const logout = () => {
+        // remove data from localStorage
+        
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
 
+        // remove data from state
+        setUser(null)
+        setToken(null)
+
+        toast.success('Logout successfully redirecting...')
+        navigate('/')
     }
 
     const value = {
