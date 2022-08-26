@@ -1,6 +1,7 @@
 import { createContext, useState } from "react"
 import React from "react"
 import { axiosPublicInstance } from "../config/axios"
+import { toast } from "react-toastify"
 
 export const AuthContext = React.createContext()
 
@@ -14,9 +15,21 @@ export const AuthProvider = ({children}) => {
                 '/auth/local/register', 
                 data
                 )
+
+            const {user, jwt} = response.data
+            // setting data to the localStorage
+            // update state
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('token', JSON.stringify(jwt))
+
+
+
+            setUser(user)
+            setToken(jwt)
+
             console.log(response.data)
         } catch (err){
-            console.log(err.response)
+            toast.error(err.response?.data?.error?.message)
         }
         
     }

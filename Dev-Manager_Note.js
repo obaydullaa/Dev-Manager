@@ -1408,5 +1408,11 @@ export const AuthProvider = ({children}) => {
       } catch (err){
           console.log(err.response)
       }
-      
   }
+
+amra jehetu user data receive korese akhon akhon ei golo show korbo... ei jonno amra state update korbo.. 
+const {user, jwt} = response.data
+    setUser(user)
+    setToken(jwt)
+
+  user login obostai thakle refresh korle sob data delete hoye jabe tai local storage save korte hobe.
