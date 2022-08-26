@@ -1,11 +1,12 @@
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import React from 'react'
+import React, { useContext } from 'react'
 import {Form, Button} from 'react-bootstrap'
 import * as yup from "yup";
 import {useForm} from 'react-hook-form'
 import FormTextInput from '../layouts/FormTextInput'
 import { clearConfigCache } from 'prettier';
+import { AuthContext } from '../context/Auth.context';
 
 const schema = yup.object({
   username: yup
@@ -41,8 +42,16 @@ function Register() {
     resolver: yupResolver(schema),
   })
 
+  const {registerUser} = useContext(AuthContext)
+
   const onSubmit = (data) => {
     console.log(data)
+    //register user
+    registerUser({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    })
   }
 
   return (

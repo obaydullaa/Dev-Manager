@@ -24,7 +24,7 @@
  *      react hook form and yup install:  yarn add react-hook-form yup
  *      npm install @hookform/resolvers yup
  * 5. react toastify github pages  -> https://fkhadra.github.io/react-toastify/introduction/
- * 
+ * 6. axios install -------> yarn add axios
  * 
  */
 
@@ -238,7 +238,7 @@ export default function Header() {
 import React from 'react'
 
 import { Card, ListGroup } from 'react-bootstrap'
-import { FaEye, FaRegTrashAlt } from 'react-icons/fa'
+import { FaEye, FaLaughBeam, FaRegTrashAlt } from 'react-icons/fa'
 
 export default function Contact({contact}) {
     console.log(contact)
@@ -917,6 +917,7 @@ function App() {
 
 import React from 'react'
 import {Form, Col, Row} from 'react-bootstrap'
+import axios from 'axios'
 
 function FormTextInput({name, label, placeholder, type='text', errors, register, defaultValue, ...rest}) {
   return (
@@ -1207,4 +1208,205 @@ export const ContactProvider = ({children}) => {
  * class: 17.2 Authentication
  * =================================================
  */
- Authentication meaning - 1. Registration 2.Login 3.Logout
+1.  Authentication meaning - 1. Registration 2.Login 3.Logout
+2. Register.jsx  -->
+            //register 
+    <>
+      import { yupResolver } from '@hookform/resolvers/yup'
+      import React from 'react'
+      import {Form, Button} from 'react-bootstrap'
+      import * as yup from "yup";
+      import {useForm} from 'react-hook-form'
+      import FormTextInput from '../layouts/FormTextInput'
+      import { clearConfigCache } from 'prettier';
+
+      const schema = yup.object({
+        username: yup
+          .string()
+          .required('username is Required')
+          .min(5, 'username must be 5 or more character in length'),
+        email: yup
+          .string()
+          .email('Must be a valid email')
+          .lowercase()
+          .required('Email is Required'),
+        password: yup
+          .string()
+          .required('password is required')
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+            'Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+          ),
+        confirmPassword: yup
+          .string()
+          .required('confirm Password is Required')
+          .oneOf([yup.ref('password')], "confirm password doesn't match"),
+      })
+
+
+      function Register() {
+        const {
+          register,
+          handleSubmit,
+          formState: { errors },
+          isSubmitting,
+        } = useForm({
+          resolver: yupResolver(schema),
+        })
+
+        const onSubmit = (data) => {
+          console.log(data)
+        }
+
+        return (
+          <>
+          <h2 className='text-center mb-5'>Register</h2>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+              <FormTextInput
+                name='username'
+                label='user name'
+                placeholder='Enter Your user name'
+                errors={errors}
+                register={register}
+                defaultValue='Obaydul'
+              />
+              <FormTextInput
+                name='email'
+                label='Email'
+                placeholder='Enter Your Email'
+                errors={errors}
+                register={register}
+                defaultValue='Obaydul@gmail.com'
+              />
+              <FormTextInput
+                name='password'
+                label='password'
+                placeholder='Enter password'
+                errors={errors}
+                register={register}
+                type='password'
+                defaultValue='abcdeFf1@'
+              />
+              <FormTextInput
+                name='confirmPassword'
+                label='confirm Password'
+                placeholder='Confirm password'
+                errors={errors}
+                register={register}
+                type='password'
+                defaultValue='abcdeFf1@'
+              />
+
+              <Button
+                variant='primary'
+                size='md'
+                type='submit'
+                disabled={isSubmitting ? 'disabled' : ''}
+                className='text-center d-inline-block w-auto'
+              >
+                Register
+              </Button>
+            </Form>
+          </>
+        )
+      }
+
+      export default Register
+    </>
+3. যারা লগিন অবস্থায় থাকবে তাদের কেই Add, eddit , & delete করতে দিব। তাই আমরা registration ar all info context a nibo coze aigolo amader solok page lagbe .
+      -> context -> Auth.context.jsx
+  context create করব । এরপর প্রভাইডার App a warppe kore dibo.
+
+  // Auth.context.jsx ->
+  import { createContext } from "react"
+  import React from "react"
+  
+  export const AuthContext = React.createContext()
+  
+  export const AuthProvider = ({children}) => {
+      const value = {
+          name : 'dda',
+      }
+      return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  } 
+
+  // Main.jsx ->
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+      <AuthProvider>
+        <ContactProvider>
+          <App />
+       </ContactProvider>
+      </AuthProvider>
+    </React.StrictMode>
+  )
+
+  // Auth.context.jsx ->
+  এই খানে আমরা দুইটা ডাটা ট্রাকডাউন করব  user & token।
+  4. 
+    const [user, setUser] = useState(null)
+    const [token, setToken] = useState(null)
+5. register, login, logout 3 ta function nibo. and value hisabe pathabo..
+
+6. yarn add axios
+// Register.jsx --> 
+  const {register} = useContext(AuthContext)
+
+axios এর জন্য আমরা আলাদা ফোল্ডার নিয়ে নিব। 
+
+7. config -> axios.js
+  import axios from 'axios'
+
+
+  export const axiosPublicInstance = axios.create({
+      baseURL: 'http://localhost:1337/api',
+  })
+
+// 8. Register.jsx --> 
+const {registerUser} = useContext(AuthContext)
+
+const onSubmit = (data) => {
+  console.log(data)
+  //register user
+  registerUser({
+    username: data.username,
+    email: data.email,
+    password: data.password,
+  })
+}
+
+9. এখন Auth.context.jsx এর মধ্য registerUser function ar modde console.log(data) dile data golo paye jabo.
+
+const registerUser = async (data) => {
+  try {
+      const response = await axiosPublicInstance.post(
+          '/auth/local/register', 
+          data
+          )
+      console.log(response.data)
+  } catch (err){
+      console.log(err.response)
+  }
+  
+}
+
+এখন আমরা দেখব যে console a ডাটা আসে নাই undefined dekasse seta debug korar jonno network tap a asbo.
+
+// Auth.context.jsx --> 
+
+export const AuthProvider = ({children}) => {
+  const [user, setUser] = useState(null)
+  const [token, setToken] = useState(null)
+
+  const registerUser = async (data) => {
+      try {
+          const response = await axiosPublicInstance.post(
+              '/auth/local/register', 
+              data
+              )
+          console.log(response.data)
+      } catch (err){
+          console.log(err.response)
+      }
+      
+  }
