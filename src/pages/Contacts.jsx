@@ -9,7 +9,7 @@ export default function Contacts({deleteContact}) {
     <>
       <h2 className='text-center'>All Contacts</h2>
       {loaded ? contacts.map((contact) => (
-        <Contact key={contact.id} contact={contact} deleteContact={deleteContact}/>
+        <Contact key={contact.id} contact={contact}/>
       )): <Loader/>}
     </>
   )
