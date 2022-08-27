@@ -1607,5 +1607,30 @@ const registerUser = async (data) => {
  1. Dashboard.jsx namer file chreate & route and showing display.
  2. Route Guard হলো লগ আউট অবস্থায় সিকরেট পেজে একসেস করতে পারবে না । এটাই হলো Route Guard.
   Rout Guarding এর জন্য আমাদের দুইটা কম্পোনেট নিতে হবে একটা প্রাইভেট রাউট আরেকটা পাবলিক রাউট ।
-   routes -> PrivateRoute.jsx & PublickRoute.jsx দুইটা রাউট নিয়ে নিব। 
+   routes -> PrivateRoute.jsx & PublickRoute.jsx দুইটা রাউট নিয়ে নিব। App.jsx এ আমরা রাউট নিয়ে ডিল করেছি। তাই App.jsx file routes -> folder a rakbo.
+
+  যে রাউট গুলো প্রাইভেট রাখবো সেখানে আমরা PrivateRoute component diye wrapp kore rakbo.
   
+  // App.jsx ->
+  <Route 
+    path='/contacts'
+    element={
+      <PrivateRoute>
+        <Contacts />
+      </PrivateRoute>
+} />
+
+// PrivateRout.jsx --> 
+import React, { useContext } from 'react'
+import { AuthContext } from '../context/Auth.context'
+import {Navigate} from 'react-router-dom'
+
+function PrivateRoute({children}) {
+    // Logic
+    const {user} = useContext(AuthContext)
+    const loadedComp = user ? children: <Navigate to='/login'/>
+
+  return <div>{loadedComp}</div>
+}
+
+export default PrivateRoute

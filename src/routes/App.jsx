@@ -14,6 +14,7 @@ import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
 
@@ -40,13 +41,39 @@ function App() {
             <Route 
             path='/contacts'
             element={
-              <Contacts />
+              <PrivateRoute>
+                <Contacts />
+              </PrivateRoute>
             } />
-            <Route path='/add-contact' element={<AddContact />} />
-            <Route path='/contacts/:id' element={<ContactDetails />} />
-            <Route path='/edit-contact/:id' element={<EditContact />} />
+            <Route path='/add-contact' 
+            element={
+              <PrivateRoute>
+                <AddContact />
+              </PrivateRoute>
+            } />
+            <Route path='/contacts/:id' 
+            element={
+              <PrivateRoute>
+                <ContactDetails />
+              </PrivateRoute>
+            } />
+
+            <Route path='/edit-contact/:id' 
+            element={
+              <PrivateRoute>
+                <EditContact />
+              </PrivateRoute>
+            } />
+
+
+            <Route path='/dashboard' 
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            } />
+
             <Route path='/register' element={<Register />} />
-            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/login' element={<Login/>} />      
             <Route path='*' element={<NotFound/>} />
             
