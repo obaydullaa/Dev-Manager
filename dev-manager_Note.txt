@@ -1676,3 +1676,47 @@ const loadedComp = user ? children: <Navigate to='/login' state={{from: location
                 <Register />
               </PublicRoute>
  } />
+
+ /**
+  * 18.2.Implementing_CRUD_with_strapi
+  * ==========================================
+  */
+
+ 1. কোন contact kon user create korse সেটা ট্রাক করতে হবে। কারণ পরবর্তিতে contact eddit করতে চায় সে ক্ষেত্রে একজনের contact যেন অন্য কেউ ইডিট করতে না পারে। প্রতিটা ইউজারে সাথে সেই ইউজার এটাস করে দেই তাহলে কন্ডিশনালি চেক করতে পরবো । আসল ইউজার contact ইডিট করতে চায় কিনা। এটা কে বলা হয় Authorization বলা হয়। এই জন্য প্রতিটা ইউজারে সাথে ডাটা এটাস করে দিতে হবে।
+
+  strapi Dashboard এ গিয়ে যে যে ফিল্ড লাগবে সে গুলে নিয়ে নিব। 
+
+  এবং strapi -> setting -> roles থেকে pablic or Authenticated করে দিতে হবে। private থাকলে আমরা api thek দেখতে পারব না। 
+
+  contact এর সাথে user এর রিলেশন করাইতে হবে। 
+ author & user setting -> roles থেকে Authenticated ওয়ে ডিল করব।  
+
+2. axios create krte hobe.
+//  config -> azios.js ->
+ const token = JSON.parse(localStorage.getItem('token'))
+
+ export const axiosPrivateInstance = axios.create({
+     baseURL: 'http://localhost:1337/api',
+     headers: {
+         Authorization: `Bearer ${token}`,
+       },
+ })
+
+ 3. আমরা এখন context -> contact.context.jsx এ সার্ভার থেকে সব ডাটা লোড করতে হবে । এর পর দেখাতে হবে। এই জন্য এখানে some kind of action run korte hobe. requiest send korte hobe.
+
+Contact.contex.jsx --> 
+get data and showing console.
+      useEffect(() => {
+      (async () => {
+        await loadedContacts()
+      })()
+    },[])
+
+    const loadedContacts = async () => {
+     try{
+      const response = await axiosPrivateInstance.get('/contacts');
+      console.log(response.data)
+     }catch(err) {
+      console.log(err.response)
+     }
+    }

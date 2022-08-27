@@ -1,6 +1,7 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import contactsReducer from "../components/contacts/reduce";
 import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT } from "../components/contacts/types";
+import { axiosPrivateInstance } from "../config/axios";
 // create context
 export const ContactContext = createContext()
 
@@ -22,7 +23,6 @@ const initialContacts = [
       lastName: 'McPhilip',
       email: 'imcphilip1@toplist.cz',
       profession: 'Software Developer',
-  
       gender: 'male',
       image: 'https://randomuser.me/api/portraits/men/75.jpg',
       dateOfBirth: new Date(),
@@ -90,6 +90,21 @@ const initialContacts = [
 export const ContactProvider = ({children}) => {
 
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
+
+    useEffect(() => {
+      (async () => {
+        await loadedContacts()
+      })()
+    },[])
+
+    const loadedContacts = async () => {
+     try{
+      const response = await axiosPrivateInstance.get('/contacts');
+      console.log(response.data)
+     }catch(err) {
+      console.log(err.response)
+     }
+    }
 
     const deleteContact = (id) => {
         dispatch({type: DELETE_CONTACT, payload: id})

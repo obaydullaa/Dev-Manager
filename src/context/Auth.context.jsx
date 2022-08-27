@@ -13,7 +13,7 @@ export const AuthProvider = ({children}) => {
     const [token, setToken] = useState(loadedToken ? loadedToken : null)
     const navigate = useNavigate()
     const location = useLocation();
-    console.log(location)
+    // console.log(location)
 
     const registerUser = async (data) => {
         try {
