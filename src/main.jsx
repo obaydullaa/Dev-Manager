@@ -5,7 +5,7 @@ import {BrowserRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
-import App from './App';
+import App from './routes/App';
 import { AuthProvider } from './context/Auth.context';
 import { ContactProvider } from './context/Contact.context';
 import './index.css';

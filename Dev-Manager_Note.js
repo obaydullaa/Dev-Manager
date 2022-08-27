@@ -1598,3 +1598,14 @@ const registerUser = async (data) => {
           <Nav.Link as={NavLink} to='/login' >Login</Nav.Link>
       </>
   }
+
+/**
+ * class: 18.1 Route_Gurad
+ * ======================================================
+ */
+
+ 1. Dashboard.jsx namer file chreate & route and showing display.
+ 2. Route Guard হলো লগ আউট অবস্থায় সিকরেট পেজে একসেস করতে পারবে না । এটাই হলো Route Guard.
+  Rout Guarding এর জন্য আমাদের দুইটা কম্পোনেট নিতে হবে একটা প্রাইভেট রাউট আরেকটা পাবলিক রাউট ।
+   routes -> PrivateRoute.jsx & PublickRoute.jsx দুইটা রাউট নিয়ে নিব। 
+  
