@@ -1650,3 +1650,29 @@ const loadedComp = user ? children: <Navigate to='/login' state={{from: location
 
  //Redirecting the user
  navigate(location?.state?.from ? location?.state?.from: '/contacts') // this
+
+ 4. আমরা যদি লগিন অবস্থায় থাকি তাহলে আমাদের লগিন পেজে আসতেছে । আমর অলরেডি লগিন পেজে আছি । http://127.0.0.1:5173/login 
+ এটা আমাদের কন্ট্রোল করতে হবে। 
+
+//  PrivateRoute.jsx -->
+ import React, { useContext } from 'react'
+ import { AuthContext } from '../context/Auth.context'
+ import {Navigate, useLocation} from 'react-router-dom'
+ 
+ function PrivateRoute({children}) {
+     // Logic
+     const {user} = useContext(AuthContext)
+     const loadedComp = user ? children: <Navigate to='/login' state={{from: location.pathname }}/>
+ 
+   return <div>{loadedComp}</div>
+ }
+ 
+ export default PrivateRoute
+
+//  App.jsx -->
+<Route path='/register' 
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+ } />
