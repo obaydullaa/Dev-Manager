@@ -1,10 +1,11 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import contactsReducer from "../components/contacts/reduce";
 import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT, lOAD_CONTACTS } from "../components/contacts/types";
 import { axiosPrivateInstance } from "../config/axios";
 import { formateContact } from "../utils/formateContact";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "./Auth.context";
 
 // create context
 export const ContactContext = createContext()
@@ -91,11 +92,12 @@ const initialContacts = [
   ]
   // create provider
   export const ContactProvider = ({children}) => {
-  const navigate = useNavigate();
-
+    
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
     const [loaded, setLoaded] =useState(false)
-
+    const {user} = useContext(AuthContext)
+    
+    const navigate = useNavigate();
     useEffect(() => {
       (async () => {
         await loadedContacts()
@@ -126,6 +128,10 @@ const initialContacts = [
       }
     
       const addContact = async(contactData) => {
+        contactData = {
+          author: user.id,
+          ...contactData, 
+        }
         try {
           const response = await axiosPrivateInstance.post('/contacts', {
             data: contactData,

@@ -1793,7 +1793,7 @@ get data and showing console.
   };
 
  Contact.context.jsx -->
- 
+
       const addContact = async(contactData) => {
         try {
           const response = await axiosPrivateInstance.post('/contacts', {
@@ -1814,3 +1814,13 @@ get data and showing console.
 
       }
 
+6. contact এ ইনফো এড হয়েছে তবে contact এর সাথে Authoe add হয় নাই  author Add করতে হলে ----->
+
+ const {user} = useContext(AuthContext)
+
+Contact.contex.jsx ->
+        const addContact = async(contactData) => {
+        contactData = {
+          author: user.id,
+          ...contactData, 
+        }
