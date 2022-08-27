@@ -1634,3 +1634,19 @@ function PrivateRoute({children}) {
 }
 
 export default PrivateRoute
+
+3. আমরা যদি এখন লগিন করে তাহলে contacts এ চলে যাচ্ছি । কিন্তু আমরা লগিন করার পর আমরা Dashboard এ চলে যাব । এটা করতে হলে-- আমরা কোন পাথ থেকে আসতেছি এটা ট্রাকডাউন করতে হবে। এর জন্য একটা হুক আছে useLocation .
+//  PrivateRoute.jsx --> 
+const loadedComp = user ? children: <Navigate to='/login' state={{from: location.pathname }}/> amora from data pelam akhn amra user ke Dashboard pathabo. eta mora console ar commponent thake dakte pare.
+
+লগিন সাকসেস্ফুলি হয়েছে Auth.Context.jsx এ এখানে আমরা কন্ডিশন লিখব । ->
+ // Auth.context.jsx  -->
+ import { useNavigate, useLocation } from 'react-router-dom'
+
+ const location = useLocation();
+ console.log(location)
+
+ toast.success('Login successfully redirecting...')
+
+ //Redirecting the user
+ navigate(location?.state?.from ? location?.state?.from: '/contacts') // this

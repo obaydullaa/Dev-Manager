@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/Auth.context'
-import {Navigate} from 'react-router-dom'
+import {Navigate, useLocation} from 'react-router-dom'
 
 function PrivateRoute({children}) {
     // Logic
     const {user} = useContext(AuthContext)
-    const loadedComp = user ? children: <Navigate to='/login'/>
+    const loadedComp = user ? children: <Navigate to='/login' state={{from: location.pathname }}/>
 
   return <div>{loadedComp}</div>
 }
