@@ -1720,3 +1720,59 @@ get data and showing console.
       console.log(err.response)
      }
     }
+
+    এখন get data formate kore hobe...
+    utie > formateContact.js -->
+
+      export const formateContact = (data) => {
+    return {
+        id: data.id,
+        ...data.attributes,
+    }
+}
+
+    এখন map korbo..
+      onst loadedContacts = response.data.data.map(contact => 
+        formateContact(contact))
+    
+এখন ডাটা আমাদের সাইটে এসেছে । তবে আমাদের একটা ব্যাপার অলটাইম ডিল করতে হবে সেটা হলো লোড নিতে কিছুটা টাইম নিচ্ছে । এটার জন্য আমরা একটা State নিব। 
+  Contact.contex.jsx --> 
+    const [loaded, setLoaded] =useState(false)
+
+      dispatch({type: lOAD_CONTACTS, payload: loadedContacts})
+        setLoaded(true) // this
+
+      const value = {
+        loaded,  // this
+        contacts,
+        deleteContact,
+        updateContact,
+        addContact,
+    }
+  create component > Loader.jsx -->
+      import React from 'react'
+      import { Spinner } from 'react-bootstrap'
+
+      function Loader() {
+        return <Spinner className='d-block mx-auto' animation='grow' />
+      }
+      export default Loader
+
+  Contacts.jsx -->
+   const {contacts, loaded} = React.useContext(ContactContext) // receive from context.
+
+    <>
+      <h2 className='text-center'>All Contacts</h2>
+      {loaded ? contacts.map((contact) => ( //this
+        <Contact key={contact.id} contact={contact} deleteContact={deleteContact}/>
+      )): <Loader/>}
+    </>
+
+
+
+
+
+
+
+
+
