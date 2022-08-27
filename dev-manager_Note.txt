@@ -1773,10 +1773,44 @@ get data and showing console.
  strapi server thake ja id astase seta number r amader ja id ase seta string tai seta  ( + ) diye number a convert kore dibo.
  const foundContact = contacts.find((contact) => contact.id === +id) // this + 
 
+ 5. এখন আমরা AddContact এর ব্যার গুলো ডিল করব। 
+ ContactForm.jsx ->
+ এখানে সাকসে মেসেজ এড করা হয়েছে।  কিন্তু এই লেভেলে contact এড হয়েছে কিনা শিয়র না। তাই এটা আমরা Contac.context.jsx এখান থেকে ডিল করব। 
+
+    const onSubmit = (data) => {
+    const id = contact?.id;
+   console.log(data)
+   // adding contacts
+   if (id) {
+     toast.success("Contact is Updated Successfully");
+     updateContact(data, id);
+    } else {
+      //show flash message
+      toast.success("Contact is Added Successfully");  // cut and past in -> Contact.context.jsx
+      addContact(data);
+    }
+    navigate("/contacts"); // cut and past in -> Contact.context.jsx
+  };
+
+ Contact.context.jsx -->
  
+      const addContact = async(contactData) => {
+        try {
+          const response = await axiosPrivateInstance.post('/contacts', {
+            data: contactData,
+          })
 
+          console.log(response.data)
+          //dispatch here
+          const contact = formateContact(response.data.data)
+          dispatch({type: ADD_CONTACT, payload: contact})
+          //show flash message
+          toast.success("Contact is Added Successfully");
+          //redirect to contacts
+          navigate("/contacts");
+        }catch(err) {
+          console.log(err.response)
+        }
 
-
-
-
+      }
 

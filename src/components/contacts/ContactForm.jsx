@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -59,7 +59,7 @@ function ContactForm({ addContact, contact, updateContact }) {
     resolver: yupResolver(schema),
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const defaultValue = {
     firstName: contact?.firstName || "Obaydul",
@@ -118,18 +118,14 @@ function ContactForm({ addContact, contact, updateContact }) {
   // }
   const onSubmit = (data) => {
     const id = contact?.id;
-   console.log(data)
-    //show flash message
-    //adding contacts
-    // if (id) {
-    //   toast.success("Contact is Updated Successfully");
-    //   updateContact(data, id);
-    // } else {
-    //   toast.success("Contact is Added Successfully");
-
-    //   addContact(data);
-    // }
-    // navigate("/contacts");
+  //  console.log(data)
+   // adding contacts
+   if (id) {
+     toast.success("Contact is Updated Successfully");
+     updateContact(data, id);
+    } else {
+      addContact(data);
+    }
   };
 
   // const {firstName, lastName, email, profession, bio, dateOfBirth, gender, image} = contact

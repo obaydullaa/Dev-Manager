@@ -3,6 +3,9 @@ import contactsReducer from "../components/contacts/reduce";
 import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT, lOAD_CONTACTS } from "../components/contacts/types";
 import { axiosPrivateInstance } from "../config/axios";
 import { formateContact } from "../utils/formateContact";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 // create context
 export const ContactContext = createContext()
 
@@ -86,9 +89,9 @@ const initialContacts = [
       bio: 'All About me',
     },
   ]
-
-// create provider
-export const ContactProvider = ({children}) => {
+  // create provider
+  export const ContactProvider = ({children}) => {
+  const navigate = useNavigate();
 
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
     const [loaded, setLoaded] =useState(false)
@@ -107,9 +110,7 @@ export const ContactProvider = ({children}) => {
         )
         dispatch({type: lOAD_CONTACTS, payload: loadedContacts})
         setLoaded(true)
-        
-      console.log(loadedContacts)
-
+      // console.log(loadedContacts)
     
      }catch(err) {
       console.log(err.response)
@@ -124,8 +125,24 @@ export const ContactProvider = ({children}) => {
         dispatch({type: UPDATE_CONTACT, payload: {contactToUpdate, id}})
       }
     
-      const addContact = (contact) => {
-        dispatch({type: ADD_CONTACT, payload: contact})
+      const addContact = async(contactData) => {
+        try {
+          const response = await axiosPrivateInstance.post('/contacts', {
+            data: contactData,
+          })
+
+          console.log(response.data)
+          //dispatch here
+          const contact = formateContact(response.data.data)
+          dispatch({type: ADD_CONTACT, payload: contact})
+          //show flash message
+          toast.success("Contact is Added Successfully");
+          //redirect to contacts
+          navigate("/contacts");
+        }catch(err) {
+          console.log(err.response)
+        }
+
       }
 
    const value = {
@@ -135,7 +152,6 @@ export const ContactProvider = ({children}) => {
         updateContact,
         addContact,
     }
-
 
     return  <ContactContext.Provider value={value}>{children}</ContactContext.Provider>
 }
