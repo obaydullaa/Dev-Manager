@@ -96,8 +96,8 @@ const initialContacts = [
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
     const [loaded, setLoaded] =useState(false)
     const {user} = useContext(AuthContext)
-    
     const navigate = useNavigate();
+
     useEffect(() => {
       (async () => {
         await loadedContacts()
@@ -106,7 +106,7 @@ const initialContacts = [
 
     const loadedContacts = async () => {
      try{
-      const response = await axiosPrivateInstance.get('/contacts');
+      const response = await axiosPrivateInstance.get('/contacts?populate=*');
       const loadedContacts = response.data.data.map(contact => 
         formateContact(contact)
         )
@@ -142,34 +142,28 @@ const initialContacts = [
         try{
           //send request to the server
           // successfully response 
-
           const response = await axiosPrivateInstance.put(`/contacts/${id}?populate=*`, 
           {
             data: contactToUpdate,
           }
           )
-           
           const contact = formateContact(response.data.data)
-          console.log(contact)
-
           //dispatch here
           dispatch({type:  UPDATE_CONTACT, payload: {id: contact.id, contact}})
-
           // //show flash message
           toast.success("Contact is Updated Successfully");
           // //redirect to contacts
           navigate(`/contacts/${contact.id}`); 
-
         }catch(err) {
           console.log(err.response?.data?.error?.message)
         }
       }
     
       const addContact = async(contactData) => {
-        contactData = {
-          author: user.id,
-          ...contactData, 
-        }
+        // contactData = { // it added in backend...
+        //   // author: user.id,  
+        //   ...contactData, 
+        // }
         try {
           const response = await axiosPrivateInstance.post('/contacts?populate=*', {
             data: contactData,

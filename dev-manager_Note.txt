@@ -1920,3 +1920,208 @@ context -> reude.js
       })
 
 
+/*
+*  20.2 : Authorization
+*/
+
+route - policy-controller - services -  (Model)
+
+    Middleware 
+
+1, study strapi documentation Development section
+
+2. api -> contact -> controllers -> contact.js
+
+
+    'use strict';
+
+  /**
+  *  contact controller
+  */
+
+  const { createCoreController } = require('@strapi/strapi').factories;
+
+  module.exports = createCoreController('api::contact.contact', ({strapi}) => ({ // this
+      async delete(ctx) {
+          console.log(ctx.state.user);
+          console.log(ctx.params.id);
+          console.log(ctx.request.body);
+          const response = super.delete(ctx);
+          return response;
+      },
+
+  }));
+
+// Show author and contact info in console we ready for work  by it
+
+module.exports = createCoreController('api::contact.contact', ({strapi}) => ({
+    async delete(ctx) {
+        // console.log(ctx.state.user);
+        // console.log(ctx.params.id);
+        // console.log(ctx.request.body);
+        const {id} = ctx.params;
+        console.log(id, typeof id);
+        const contact = await strapi.entityService.findOne(
+            "api::contact.contact", 
+            +id,
+            {
+            populate: "author"
+        }
+        );
+        const response =  super.delete(ctx);
+        return response;
+    },
+
+}));
+
+
+
+3. Can't delete not creator or main author
+
+  api -> contact -> controllers -> contact.js ->>
+
+
+'use strict';
+
+/**
+ *  contact controller
+ */
+
+const { createCoreController } = require('@strapi/strapi').factories;
+
+module.exports = createCoreController('api::contact.contact', ({strapi}) => ({
+    async delete(ctx) {
+        // console.log(ctx.state.user);
+        // console.log(ctx.params.id);
+        // console.log(ctx.request.body);
+        // console.log(id, typeof id);
+
+        const {id} = ctx.params;
+        const {id: authId} = ctx.state.user
+        const contact = await strapi.entityService.findOne(
+            "api::contact.contact", 
+            +id,
+            {
+            populate: "author"
+        }
+        );
+
+        if(!contact) return ctx.notFound('contact is not found to be deleted')
+        if(contact.author.id !== authId) 
+            return ctx.unauthorized('Your are not the owner of the contact')
+
+        const response = super.delete(ctx);
+        return response;
+    },
+
+}));
+
+
+4. amra frontend thake author deal korse na .. tai eta fele dibo...
+
+  Contact.context.jsx -> 
+
+        const addContact = async(contactData) => {
+        contactData = {  // it added in backend... // reve this line...
+          // author: user.id,  
+          ...contactData, 
+        }
+
+Update ------------>
+      async updated(ctx) {
+        const {id: authId} = ctx.state.user
+        const {id} = ctx.params;
+
+        try {
+            const contact = await strapi.entityService.findOne(
+                "api::contact.contact", 
+                +id,
+                {
+                populate: "author"
+            }
+            );
+            if(!contact) return ctx.notFound('contact is not found to be Updated')
+            if(contact.author.id !== authId) 
+                return ctx.unauthorized('Your are not the owner of the contact the contact')
+    
+            const response = await super.update(ctx);
+            return response;
+
+        }catch(err) {
+            ctx.internalServerError('Unknown arrow')
+        }
+    }
+
+
+
+5. amader je user ar contact sei user Eddit & contact dakte parbe.. eta korar jonno amader user ar id lagbe ContactDetails.jsx a user ar id nai. amra uthContext ar maddome id ta pate pare.. and amra Contact.context.jsx a je khan thake request pathaise server asekhame populate kore dibo tahole amra ContactDetails.jsx a user ar id pabo.
+ Contact.contex.jsx  ->
+  const loadedContacts = async () => {
+     try{
+      const response = await axiosPrivateInstance.get('/contacts?populate=*'); // this
+
+
+
+  ContactDetails.jsx -> 
+     function ContactDetails({}) {
+    const {contacts, deleteContact} = useContext(ContactContext)
+    const { user } = useContext(AuthContext)  // this
+    
+    const [contact, setContact] = useState({})
+    const {id} = useParams()
+    const navigate = useNavigate()
+    const foundContact = contacts.find((contact) => contact.id === +id) // this
+
+    useEffect(() => {
+        if(id && foundContact){
+            setContact(foundContact)
+        }
+
+    }, [id])
+
+    const isOwner = user.id === foundContact.author.data.id;
+
+
+  {
+  isOwner && (  // this  ....
+      <>
+          <Card.Link as={Link} to={`/edit-contact/${id}`}>
+              <Button variant='warning ms-3' size='md' type='view'>
+                  <FaPencilAlt />
+              </Button>
+          </Card.Link>
+          <Card.Link>
+              
+              <Button variant='danger ms-3' size='md' onClick={() => handleDelete(id)}>
+                  <FaRegTrashAlt />
+              </Button>
+          </Card.Link>
+      </>
+  )}
+
+
+
+same kaj amra contact a korbo.. mane amra ja korbo seta holo contact a je kina user na se 'eddit' and 'update' icon dakte pabe na
+
+Contact.jsx --> 
+  export default function Contact({contact}) {
+    const {deleteContact} = useContext(ContactContext)
+    const {user} = useContext(AuthContext) // this
+
+    const {id, firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact  
+
+    const isOwner = user.id === contact.author.data.id; // this
+
+      {
+          isOwner && (  // this.......
+              <>
+                  <Card.Link>
+                      <Button variant='danger ms-3' size='md' onClick={() => handleDelete(id)}>
+                          <FaRegTrashAlt />
+                      </Button>
+                  </Card.Link>
+              </>
+          )
+      }
+
+
