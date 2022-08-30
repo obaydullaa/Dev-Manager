@@ -1873,6 +1873,50 @@ Contact.context.jsx  ->
        toast.success("Contact is Updated Successfully");
 
 
+            const updateContact = async (contactToUpdate, id) => {
+        contactToUpdate = {
+          author: user.id,
+          ...contactToUpdate, 
+        }
+        try{
+          //send request to the server
+          // successfully response 
 
+          const response = await axiosPrivateInstance.put(`/contacts/${id}?populate=*`, 
+          {
+            data: contactToUpdate,
+          }
+          )
+           
+          const contact = formateContact(response.data.data)
+          console.log(contact)
+
+          //dispatch here
+          dispatch({type:  UPDATE_CONTACT, payload: {id: contact.id, contact}})
+
+          // //show flash message
+          toast.success("Contact is Updated Successfully");
+          // //redirect to contacts
+          navigate(`/contacts/${contact.id}`); 
+
+        }catch(err) {
+          console.log(err.response?.data?.error?.message)
+        }
+      }
+
+context -> reude.js
+          case UPDATE_CONTACT:
+      const {id, contact: contactToUpdate} = payload; //this
+      const contacts = state.map(contact => {
+        if(contact.id === id) {
+          //Update
+          return {
+            id,
+            ...contactToUpdate,
+          }
+        }else {
+          return contact;
+        }
+      })
 
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
-import contactsReducer from "../components/contacts/reduce";
-import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT, lOAD_CONTACTS } from "../components/contacts/types";
+import contactsReducer from "./reduce";
+import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT, lOAD_CONTACTS } from "./types";
 import { axiosPrivateInstance } from "../config/axios";
 import { formateContact } from "../utils/formateContact";
 import { useNavigate } from "react-router-dom";
@@ -134,12 +134,35 @@ const initialContacts = [
       }
     }
 
-      const updateContact = (contactToUpdate, id) => {
-        //send request to the server
-        // successfully response 
-            // 
-        toast.success("Contact is Updated Successfully");
-        dispatch({type: UPDATE_CONTACT, payload: {contactToUpdate, id}})
+      const updateContact = async (contactToUpdate, id) => {
+        contactToUpdate = {
+          author: user.id,
+          ...contactToUpdate, 
+        }
+        try{
+          //send request to the server
+          // successfully response 
+
+          const response = await axiosPrivateInstance.put(`/contacts/${id}?populate=*`, 
+          {
+            data: contactToUpdate,
+          }
+          )
+           
+          const contact = formateContact(response.data.data)
+          console.log(contact)
+
+          //dispatch here
+          dispatch({type:  UPDATE_CONTACT, payload: {id: contact.id, contact}})
+
+          // //show flash message
+          toast.success("Contact is Updated Successfully");
+          // //redirect to contacts
+          navigate(`/contacts/${contact.id}`); 
+
+        }catch(err) {
+          console.log(err.response?.data?.error?.message)
+        }
       }
     
       const addContact = async(contactData) => {
@@ -148,7 +171,7 @@ const initialContacts = [
           ...contactData, 
         }
         try {
-          const response = await axiosPrivateInstance.post('/contacts', {
+          const response = await axiosPrivateInstance.post('/contacts?populate=*', {
             data: contactData,
           })
           const contact = formateContact(response.data.data)
@@ -162,7 +185,6 @@ const initialContacts = [
           toast.error(err.response?.data?.error?.message)
           console.log(err.response)
         }
-
       }
 
    const value = {
