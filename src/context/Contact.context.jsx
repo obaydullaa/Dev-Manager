@@ -119,11 +119,26 @@ const initialContacts = [
      }
     }
 
-    const deleteContact = (id) => {
-        dispatch({type: DELETE_CONTACT, payload: id})
+    const deleteContact = async(id) => {
+      try{
+        const response = await axiosPrivateInstance.delete(`/contacts/${id}`)
+        console.log(response.data)
+        dispatch({type: DELETE_CONTACT, payload: response.data.data.id})
+        // show toast message 
+        toast.success('Contact is deleted successfully')
+        // Navigate
+        navigate=('/contacts')
+      }catch(err){
+        toast.error(err.response?.data?.error?.message)
+        console.log(err.response)
       }
+    }
 
       const updateContact = (contactToUpdate, id) => {
+        //send request to the server
+        // successfully response 
+            // 
+        toast.success("Contact is Updated Successfully");
         dispatch({type: UPDATE_CONTACT, payload: {contactToUpdate, id}})
       }
     
@@ -136,16 +151,15 @@ const initialContacts = [
           const response = await axiosPrivateInstance.post('/contacts', {
             data: contactData,
           })
-
-          console.log(response.data)
-          //dispatch here
           const contact = formateContact(response.data.data)
+          //dispatch here
           dispatch({type: ADD_CONTACT, payload: contact})
           //show flash message
           toast.success("Contact is Added Successfully");
           //redirect to contacts
           navigate("/contacts");
         }catch(err) {
+          toast.error(err.response?.data?.error?.message)
           console.log(err.response)
         }
 

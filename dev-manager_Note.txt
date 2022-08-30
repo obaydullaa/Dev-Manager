@@ -1824,3 +1824,55 @@ Contact.contex.jsx ->
           author: user.id,
           ...contactData, 
         }
+
+7. এখন আমরা Delete contact Deal korbo...
+
+toast message আমরা Contact.context.jsx থেকে ডিল করব তাহলে perfectly message show korbe.
+
+ Contact.jsx -->
+  const handleDelete = (id) => {
+    toast.success('Contact is Deleted Successfully') // remove
+    deleteContact(id)
+  }
+
+ContactDetails.jsx ->
+  const handleDelete = (id) => {
+    toast.success('Contact is deleted success') // remove
+    deleteContact(id)
+    navigate('/contacts') // remove
+}
+
+Contact.context.jsx --> 
+  const deleteContact = async(id) => {
+    try{
+      const response = await axiosPrivateInstance.delete(`/contacts/${id}`)
+      console.log(response.data)
+      dispatch({type: DELETE_CONTACT, payload: response.data.data.id})
+      // show toast message 
+      toast.success('Contact is deleted successfully')
+      // Navigate
+      navigate=('/contacts')
+    }catch(err){
+      toast.error(err.response?.data?.error?.message)
+      console.log(err.response)
+    }
+  }
+
+   /**
+  * 20.1. Eddit_Update
+  * ==========================================
+  */
+
+1. Eddit korar jonno id ke dore korte hobe, server thake je id astase seta string hisabe astase tai seta ke number a conver korte hobe. ai jonno id ar age + dibo ==> +id
+  EdditContact.jsx -> 
+        const foundContact = contacts.find((contact) => contact.id === +id) // this
+
+2. ContactFrom.jsx ar modde toast message add kora hoise akhon jeheto server thake data astase tai amr ai level a sure na data arse kina. server a add hoise kina seta amra deal korese context a. tai amra toast message copy kore Contact.context.jsx er update function ar modde rakbo.
+
+Contact.context.jsx  ->
+       toast.success("Contact is Updated Successfully");
+
+
+
+
+

@@ -20,7 +20,6 @@ function ContactDetails({}) {
     }, [id])
 
     const handleDelete = (id) => {
-        toast.success('Contact is deleted success')
         deleteContact(id)
         navigate('/contacts')
     }
