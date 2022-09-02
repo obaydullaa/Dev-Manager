@@ -2124,4 +2124,29 @@ Contact.jsx -->
           )
       }
 
+/*
+* 21.1_ Forgot_rest_passwoed (01-09-22)
+*===========================================================================
+*
+* Nested Routing
+* Dashboard
+* Forgot password
+* Email Sending
+*
+*/
+   **1.  Nested Routing **
+    i. create route 
+    ii. parent component add Outlate Component
+        <Route path='/dashboard' 
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+          }
+        >
 
+          <Route index element={<Profile />} /> 
+          <Route path='profile' element={<Profile />} /> 
+          <Route path='manage-password' element={<ManagePassword />} /> 
+          <Route path='contacts' element={<UserContactList />} /> 
+        <Route />
