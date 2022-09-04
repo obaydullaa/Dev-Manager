@@ -2206,6 +2206,63 @@ function Dashboard() {
 
 
 /*
+* 21.2 Forgot reset password
+*
+*
+*/
+
+1. Mail gun setup korbo and strapi server thake permitions and mail reset password set korbo...
+   dev-manager-backend :
+      api-> plugins.js -->
+      =======================================
+      module.exports = ({ env }) => ({
+        // ...
+        email: {
+          config: {
+            provider: 'mailgun',
+            providerOptions: {
+              key: env('MAILGUN_API_KEY'), // Required
+              domain: env('MAILGUN_DOMAIN'), // Required
+            },
+            settings: {
+              defaultFrom: 'cr7obaydul1@gmail.com',
+              defaultReplyTo: 'cr7obaydul1@gmail.com',
+            },
+          },
+        },
+        // ...
+      });
+
+.env -> 
+  MAILGUN_API_KEY=00eb518e77b7616afd9bd5685b4abfa7-07e2c238-5534ab9e
+  MAILGUN_DOMAIN=sandboxa4e6c3ab8a1942a3aaf3ce8e6b7ecb45.mailgun.org
+
+
+FrogotPassword.jsx ->
+        const onSubmit = async (data) => {
+        try{
+          const response = await axiosPublicInstance.post
+          ('/auth/forgot-password/',
+           {
+            email: data.email
+          }
+        )
+        toast.success('Email is sent successfully with password reset link')
+        }catch (err) {
+            console.log(err.response)
+            toast.success('Error in sending email')
+        }
+  }
+
+je mail diye check korbo jei mail diye fist a account khole then reset password korbo.. dakbo ja mail reset password ar link gase.
+
+
+
+
+
+
+
+/*
 * 21.3 Managing Dashboard
 * 
 *
@@ -2303,6 +2360,36 @@ function UserContactList() {
 export default UserContactList
 
 
+ResetPassword.jsx -->
+
+  import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+
+  function ResetPassword() {
+    const [searchParams] = useSearchParams()
+    const code = searchParams.get('code')
+    const navigate = useNavigate();
+
+    console.log(code)
+
+    
+    const onSubmit = async (data) => {
+      console.log(data)
+      try {
+        const response = await axiosPublicInstance.post('/auth/reset-password', {
+          code: code,
+          password: data.password,
+          passwordConfirmation: data.confirmPassword,
+        })
+        console.log(response.data)
+        toast.success('Password resetted successfully, now can login with updated password')
+        navigate('/login')
+
+      } catch(err) {
+        console.log(err.response)
+        toast.error('Issue in Resetting password please try again')
+      }
+      // console.log(response.data)
+    }
 
 
 

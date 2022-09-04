@@ -14,7 +14,7 @@ export default function Contact({contact}) {
 
     const {id, firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact  
 
-    const isOwner = user.id === contact.author.data.id;
+    const isOwner = user?.id === contact?.author?.data?.id;
 
     const handleDelete = (id) => {
         deleteContact(id)
