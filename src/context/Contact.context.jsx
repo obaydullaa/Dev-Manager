@@ -100,9 +100,11 @@ const initialContacts = [
 
     useEffect(() => {
       (async () => {
-        await loadedContacts()
+        if(user) {
+          await loadedContacts()
+        }
       })()
-    },[])
+    },[user])
 
     const loadedContacts = async () => {
      try{
