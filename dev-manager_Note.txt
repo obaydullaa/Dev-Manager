@@ -2392,6 +2392,104 @@ ResetPassword.jsx -->
     }
 
 
+/**
+* 22.Image_Upload_ans_strpi  (05-09-22)
+*================================================================================
+*/
+
+1.firste amara from ar modde makup niye nibo and input ar modde onChange & form ar mode onSubmit function niye nibo & ar khanthake evt ar madaome files niye nibo.
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+  }
+  const handleChange = (evt) => {
+    console.log(evt.target.files)
+  }
+
+  <form onSubmit={handleSubmit}>
+    <input type='file' accept='image/*' onChange={handleChange} />
+    <Button type='submit'>Upload </Button>
+  </form>
+
+2. take state for track -> const [file, setFile] = useState(null)
+
+  const handleChange = (evt) => {
+    setFile(evt.target.files)
+    console.log(evt.target.files)
+  }
+
+3. Amra normaly axios or fetch use kore data nai. but jhokon amr img niye deal korbo tkhon amr alada dta niye deal korbo seta FormData eta browser api ar modde avaiable.
+
+ *xxx* Error undefined ---------------
+   mistake not import axios------------
+
+4. image upload full code
+Profile.jsx :---> 
+
+  import axios from 'axios';
+import React, { useState } from 'react'
+import { useContext } from 'react'
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../context/Auth.context'
+
+function Profile() {
+  const {user} = useContext(AuthContext);
+  const [file, setFile] = useState(null)
+
+  const handleSubmit = async (evt) => {
+    console.log('hello api')
+    evt.preventDefault();
+    const formData = new FormData()
+    formData.append('files', file)
+    //Send the request to server
+    try{
+      const upload_res = await axios('http://localhost:1337/api/upload',
+       {
+        method: 'POST',
+        data: formData,
+      })
+      console.log(upload_res)
+
+    }catch (err) {
+      console.log(err.response) 
+    }
+  }
+
+  const handleChange = (evt) => {
+    setFile(evt.target.files[0])
+    console.log(evt.target.files[0])
+  }
+  
+  return (
+    <>
+      <Container>
+        <Row>
+          <div className="user-wrapper">
+
+            <form onSubmit={handleSubmit}>
+              <input type='file' accept='image/*' onChange={handleChange} />
+              <Button type='submit'>Upload </Button>
+            </form>
+
+            <h4 className='mt-4'>Name: {user.username}</h4>
+            <h4>Email: {user.email}</h4>
+          </div>
+        </Row>
+      </Container>
+    </>
+  )
+}
+
+export default Profile
+
+
+
+
+
+
+
+
 
 
 
