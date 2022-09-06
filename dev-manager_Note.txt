@@ -26,6 +26,8 @@
  * 5. react toastify github pages  -> https://fkhadra.github.io/react-toastify/introduction/
  * 6. axios install -------> yarn add axios
  * 7 nstall Email provider -> npm install @strapi/provider-email-sendgrid 
+ * 8. Image server cloudinary ---> yarn add @strapi/provider-upload-cloudinary
+ *
  *
  */
 
@@ -2484,19 +2486,42 @@ function Profile() {
 export default Profile
 
 
+/*
+* 23.1 Image Upload (07/09/22)
+*=========================================
+*/
+
+1. instal cloudinary package -> yarn add @strapi/provider-upload-cloudinary
+2. create account cloudinary  & past plugins.js key, api and secret
+3. ./config/middlewares.js in Security "Middleware Configuration" past from nmpjs documentation
+
+4. amra ager kico code midifi koresi ->
+    congi/axios.js ->
 
 
+  // const token = JSON.parse(localStorage.getItem('token'))
+  export const axiosPrivateInstance = (token) => 
+  axios.create({
+      baseURL: 'http://localhost:1337/api',
+      headers: {
+          Authorization: `Bearer ${token}`,
+        },
+  })
+
+  Contact.context.jsx ->
+
+    const {token} = useContext(AuthContext)
 
 
+    useEffect(() => {
+      if(token){
+        ;(async () => {
+          await loadedContacts()
+        })()
+      }
+    },[token])
 
-
-
-
-
-
-
-
-
+  change all api call before ->  const response = await axiosPrivateInstance(token).get('/contacts?populate=*');
 
 
 
@@ -2518,3 +2543,5 @@ const { token } = useContext(AuthContext)
       })()
     }
   }, [token])
+
+

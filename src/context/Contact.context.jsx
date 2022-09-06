@@ -95,20 +95,21 @@ const initialContacts = [
     
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
     const [loaded, setLoaded] =useState(false)
-    const {user} = useContext(AuthContext)
+    const {token} = useContext(AuthContext)
     const navigate = useNavigate();
 
     useEffect(() => {
-      (async () => {
-        if(user) {
+      if(token){
+        ;(async () => {
           await loadedContacts()
-        }
-      })()
-    },[user])
+        })()
+      }
+    },[token])
 
     const loadedContacts = async () => {
      try{
-      const response = await axiosPrivateInstance.get('/contacts?populate=*');
+      const response = await axiosPrivateInstance(token).get('/contacts?populate=*');
+
       const loadedContacts = response.data.data.map(contact => 
         formateContact(contact)
         )
@@ -123,7 +124,7 @@ const initialContacts = [
 
     const deleteContact = async(id) => {
       try{
-        const response = await axiosPrivateInstance.delete(`/contacts/${id}`)
+        const response = await axiosPrivateInstance(token).delete(`/contacts/${id}`)
         console.log(response.data)
         dispatch({type: DELETE_CONTACT, payload: response.data.data.id})
         // show toast message 
@@ -144,7 +145,7 @@ const initialContacts = [
         try{
           //send request to the server
           // successfully response 
-          const response = await axiosPrivateInstance.put(`/contacts/${id}?populate=*`, 
+          const response = await axiosPrivateInstance(token).put(`/contacts/${id}?populate=*`, 
           {
             data: contactToUpdate,
           }
@@ -167,7 +168,7 @@ const initialContacts = [
         //   ...contactData, 
         // }
         try {
-          const response = await axiosPrivateInstance.post('/contacts?populate=*', {
+          const response = await axiosPrivateInstance(token).post('/contacts?populate=*', {
             data: contactData,
           })
           const contact = formateContact(response.data.data)

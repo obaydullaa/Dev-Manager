@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useContext } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { AuthContext } from '../context/Auth.context'
+import { AuthContext } from '../context/Auth.context';
+
+const uploadPercentage = (total, loaded) => Math.floor((total/loaded) * 100);
 
 function Profile() {
   const {user} = useContext(AuthContext);
   const [file, setFile] = useState(null)
+  const [percent, setPercent] = useState(0)
 
   const handleSubmit = async (evt) => {
     console.log('hello api')
@@ -20,8 +23,12 @@ function Profile() {
        {
         method: 'POST',
         data: formData,
+
+        onUploadProgress: (progress) => {
+          const percentageData = uploadPercentage(progress.total, progress.loaded)
+          setPercent(percentageData)
+        },
       })
-      console.log(upload_res)
 
     }catch (err) {
       console.log(err.response) 
@@ -32,7 +39,7 @@ function Profile() {
     setFile(evt.target.files[0])
     console.log(evt.target.files[0])
   }
-  
+  console.log(percent)
   return (
     <>
       <Container>
@@ -43,7 +50,7 @@ function Profile() {
               <input type='file' accept='image/*' onChange={handleChange} />
               <Button type='submit'>Upload </Button>
             </form>
-
+            <ProgressBar striped variant="success" now={40} />
             <h4 className='mt-4'>Name: {user.username}</h4>
             <h4>Email: {user.email}</h4>
           </div>
