@@ -11,6 +11,9 @@ import {axiosPrivateInstance} from '../config/axios.js'
 function Profile() {
   const {user, token} = useContext(AuthContext);
   const [file, setFile] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
+
+
   const handleChange = (evt) => {
     setFile(evt.target.files[0])
     console.log(evt.target.files)
@@ -31,6 +34,7 @@ function Profile() {
     //along with resource creation
     //Upload file to server
     try{
+      setSubmitting(true)
       const response= await axiosPrivateInstance(token).post(
         '/profiles?populate=*', 
         formData,
@@ -40,8 +44,8 @@ function Profile() {
           }
         }
       )
-      console.log(response.data)
-
+      console.log(response.data.data.attributes.profilePicture.data.attributes.url)
+      setSubmitting(false)
     }catch (err) {
       console.log(err) 
     }
@@ -60,7 +64,8 @@ function Profile() {
           <form onSubmit={handleSubmit}>
             <label htmlFor='profilePicture'> Profile Picture: </label>
             <input type='file' id='profilePicture' accept='image/*' onChange={handleChange} />
-            <Button type='submit'>Upload</Button>
+
+            <Button type='submit' disabled={submitting}>Upload</Button>
           </form>
         </Row>
       </Container>
