@@ -2530,6 +2530,12 @@ export default Profile
  *** akjon user arek jon user ar parofile ar kono kico edit or delete korte parbe na eta amader korte hobe.
 
 5. image upload  process:
+      server onvironment setpup
+   i) cloudinary api past in .env file
+  ii) config/middlewares.jsx file past strapi::security some codes 
+  iii) 
+
+
       Profile.jsx -> 
           const handleSubmit = async (evt) => {
     evt.preventDefault();
