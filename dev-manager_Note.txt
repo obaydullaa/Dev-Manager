@@ -2523,25 +2523,73 @@ export default Profile
 
   change all api call before ->  const response = await axiosPrivateInstance(token).get('/contacts?populate=*');
 
+5. Create new collection in strapi dashboard -> 
+    collection name -> Profile
+                          fieldName-> fistName, lastName, profilePicture, relation  2 waye user and profile
 
+ *** akjon user arek jon user ar parofile ar kono kico edit or delete korte parbe na eta amader korte hobe.
 
+5. image upload  process:
+      Profile.jsx -> 
+          const handleSubmit = async (evt) => {
+    evt.preventDefault();
 
-
-
-
-
-
-
-
-
-const { token } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (token) {
-      ;(async () => {
-        await loadContacts()
-      })()
+    const data = {
+      firstName: 'Md',
+      lastName: 'Obaydulla',
+      user: user.id,
     }
-  }, [token])
+    const formData = new FormData()
+    formData.append('files.profilePicture', file, file.name)
+    formData.append('data', JSON.stringify(data))
+    //Image upload alone
+    //along with resource creation
+    //Upload file to server
+    try{
+      const response= await axiosPrivateInstance(token).post(
+        '/profiles?populate=*', 
+        formData,
+        {
+          onUploadProgress: (progress) => {
+            console.log(progress)
+          }
+        }
+      )
+      console.log(response.data)
+
+    }catch (err) {
+      console.log(err) 
+    }
+  }
+
+
+
+  const {username, email} = user
+  return (
+    <>
+      <Container>
+        <Row>
+          <div className="user-wrapper">
+            <ProgressBar striped variant="success" now={40} />
+            <h4 className='mt-4'>Name: {username}</h4>
+            <h4>Email: {email}</h4>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor='profilePicture'> Profile Picture: </label>
+            <input type='file' id='profilePicture' accept='image/*' onChange={handleChange} />
+            <Button type='submit'>Upload</Button>
+          </form>
+        </Row>
+      </Container>
+    </>
+  )
+
+
+
+
+
+
+
+
 
 

@@ -4,56 +4,64 @@ import { useContext } from 'react'
 import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/Auth.context';
+import {axiosPrivateInstance} from '../config/axios.js'
 
-const uploadPercentage = (total, loaded) => Math.floor((total/loaded) * 100);
+// const uploadPercentage = (total, loaded) => Math.floor((total/loaded) * 100);
 
 function Profile() {
-  const {user} = useContext(AuthContext);
+  const {user, token} = useContext(AuthContext);
   const [file, setFile] = useState(null)
-  const [percent, setPercent] = useState(0)
+  const handleChange = (evt) => {
+    setFile(evt.target.files[0])
+    console.log(evt.target.files)
+  }
 
   const handleSubmit = async (evt) => {
-    console.log('hello api')
     evt.preventDefault();
-    const formData = new FormData()
-    formData.append('files', file)
-    //Send the request to server
-    try{
-      const upload_res = await axios('http://localhost:1337/api/upload',
-       {
-        method: 'POST',
-        data: formData,
 
-        onUploadProgress: (progress) => {
-          const percentageData = uploadPercentage(progress.total, progress.loaded)
-          setPercent(percentageData)
-        },
-      })
+    const data = {
+      firstName: 'Md',
+      lastName: 'Obaydulla',
+      user: user.id,
+    }
+    const formData = new FormData()
+    formData.append('files.profilePicture', file, file.name)
+    formData.append('data', JSON.stringify(data))
+    //Image upload alone
+    //along with resource creation
+    //Upload file to server
+    try{
+      const response= await axiosPrivateInstance(token).post(
+        '/profiles?populate=*', 
+        formData,
+        {
+          onUploadProgress: (progress) => {
+            console.log(progress)
+          }
+        }
+      )
+      console.log(response.data)
 
     }catch (err) {
-      console.log(err.response) 
+      console.log(err) 
     }
   }
 
-  const handleChange = (evt) => {
-    setFile(evt.target.files[0])
-    console.log(evt.target.files[0])
-  }
-  console.log(percent)
+  const {username, email} = user
   return (
     <>
       <Container>
         <Row>
           <div className="user-wrapper">
-
-            <form onSubmit={handleSubmit}>
-              <input type='file' accept='image/*' onChange={handleChange} />
-              <Button type='submit'>Upload </Button>
-            </form>
             <ProgressBar striped variant="success" now={40} />
-            <h4 className='mt-4'>Name: {user.username}</h4>
-            <h4>Email: {user.email}</h4>
+            <h4 className='mt-4'>Name: {username}</h4>
+            <h4>Email: {email}</h4>
           </div>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor='profilePicture'> Profile Picture: </label>
+            <input type='file' id='profilePicture' accept='image/*' onChange={handleChange} />
+            <Button type='submit'>Upload</Button>
+          </form>
         </Row>
       </Container>
     </>
