@@ -28,7 +28,7 @@ function UserContactList() {
           </tr>
        </thead>
        <tbody>
-        {userContacts.map((userContact) => {
+        {userContact && userContacts.map((userContact) => {
           return (
             <tr key={userContact.id}>
               <td>{userContact.id}</td>

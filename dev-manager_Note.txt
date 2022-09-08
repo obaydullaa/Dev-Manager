@@ -27,6 +27,7 @@
  * 6. axios install -------> yarn add axios
  * 7 nstall Email provider -> npm install @strapi/provider-email-sendgrid 
  * 8. Image server cloudinary ---> yarn add @strapi/provider-upload-cloudinary
+ * 9. qs libiary install  - yarn add qs
  *
  *
  */
@@ -2600,4 +2601,93 @@ export default Profile
       setImageUrl(response.data.data.attributes?.profilePicture?.data?.attributes?.url)
        {imageUrl && <img src={imageUrl} alt='ProfilePicture' />}
 
+
+
+/*
+* 23.2_As libiary adn population
+*============================================*
+*/
+
+1. qs libiary install  - yarn add qs
+
+2.     Auth.contex.jsx --> 
+
+
+ const loadUserContact = async () => {
+        const query {  // this
+            populate: ['profile']
+        }
+        try{
+            const response = await axiosPrivateInstance(token).get(
+                    `/users/me?${query}` this
+                )
+
+   setUserContacts(response.data.contacts) ai contact populate hoi nai ai khane null dakhabe. eta track kora jonno ekta state niye nibo ->>>  const [profileId, setProfileId] = useState(null)
+
+3. ai khane user contact null ei ase tai amra UserContactList.jsx -> ar modde bole bibo jodi realy userContact thake thake thole shodo tokhon ei map kore dakhbo.
+
+
+ Auth.Contex.js -> 
+
+      // Load usr Profile
+    useEffect(() => {
+        if(user && loaded) {
+            (async() => {
+                await loadUserProfile();
+            })()
+        }
+    }, [user, loaded])
+
+    const loadUserProfile = async () => {
+        const query = qs.stringify(
+        {
+            populate: '*',
+        },
+        {
+            encodeValuesOnly: true,
+        }
+        )
+        try{
+            const response = await axiosPrivateInstance(token).get(
+                `/profiles/${profileId}`
+            )
+            console.log(response.data)
+            setLoaded(true); 
+        }catch(err) {
+            console.log(err.response)
+            setLoaded(true);
+        }
+    }
+
+
+        // Load user
+    useEffect(() => {
+        if(user) {
+            (async() => {
+                await loadUserContact();
+            })()
+        }
+    }, [user, triggerDelete])
+
+    const loadUserContact = async () => {
+        const query = qs.stringify(
+        {
+            populate: '*',
+        },
+        {
+            encodeValuesOnly: true,
+        }
+        )
+        try{
+            const response = await axiosPrivateInstance(token).get(
+                `/users/me?${query}`
+            )
+            console.log(response.data)
+            setProfileId(response.data.profile.id)
+            setLoaded(true); 
+        }catch(err) {
+            console.log(err.response)
+            setLoaded(true);
+        }
+    }
 
