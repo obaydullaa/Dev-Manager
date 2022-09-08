@@ -5,6 +5,7 @@ import qs from 'qs'
 
 import { axiosPublicInstance, axiosPrivateInstance } from "../config/axios"
 import axios from "axios"
+import { formateContact } from "../utils/formateContact"
 
 
 export const AuthContext = React.createContext()
@@ -58,18 +59,25 @@ export const AuthProvider = ({children}) => {
 
     const loadUserProfile = async () => {
         const query = qs.stringify(
-        {
-            populate: '*',
-        },
+          {
+            populate: ['profilePicture', 'user', 'user.contacts']
+
+          },
         {
             encodeValuesOnly: true,
         }
         )
         try{
             const response = await axiosPrivateInstance(token).get(
-                `/profiles/${profileId}`
+                `/profiles/${profileId}?${query}`
+            )
+            const mappedContacts = response.data.data.attributes.user.data.attributes.contacts.data.map(
+              contact => formateContact(contact)
             )
             console.log(response.data)
+
+            setUserContacts(mappedContacts)
+           
             setLoaded(true); 
         }catch(err) {
             console.log(err.response)
