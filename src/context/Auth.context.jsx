@@ -74,7 +74,6 @@ export const AuthProvider = ({children}) => {
             const mappedContacts = response.data.data.attributes.user.data.attributes.contacts.data.map(
               contact => formateContact(contact)
             )
-            console.log(response.data)
 
             setUserContacts(mappedContacts)
            
@@ -107,7 +106,7 @@ export const AuthProvider = ({children}) => {
             const response = await axiosPrivateInstance(token).get(
                 `/users/me?${query}`
             )
-            console.log(response.data)
+            
             setProfileId(response.data.profile.id)
             setLoaded(true); 
         }catch(err) {

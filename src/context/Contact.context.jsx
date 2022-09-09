@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import contactsReducer from "./reduce";
+import qs from 'qs';
 import { DELETE_CONTACT, UPDATE_CONTACT, ADD_CONTACT, lOAD_CONTACTS } from "./types";
 import { axiosPrivateInstance } from "../config/axios";
 import { formateContact } from "../utils/formateContact";
@@ -95,6 +96,9 @@ const initialContacts = [
     
     const [contacts, dispatch] = useReducer(contactsReducer, initialContacts)
     const [loaded, setLoaded] =useState(false)
+    const [pageNumber, setPageNumber] = useState(1)
+    const [pageCount, setPageCount] = useState(null)
+
     const {token} = useContext(AuthContext)
     const navigate = useNavigate();
 
@@ -104,18 +108,38 @@ const initialContacts = [
           await loadedContacts()
         })()
       }
-    },[token])
+    },[token, pageNumber])
 
     const loadedContacts = async () => {
+      const query = qs.stringify({
+        sort: ['id:desc'],
+        populate: '*',
+        pagination: {
+          page: pageNumber,
+          pageSize: 2,
+        }
+      },
+      {
+        encodeValuesOnly: true,
+      }
+      )
+
      try{
-      const response = await axiosPrivateInstance(token).get('/contacts?populate=*');
+      const response = await axiosPrivateInstance(token).get(
+        `/contacts?${query}`
+      );
 
       const loadedContacts = response.data.data.map(contact => 
         formateContact(contact)
         )
+
+        // console.log(response.data)
         dispatch({type: lOAD_CONTACTS, payload: loadedContacts})
+        //set page count in state
+        setPageCount(response.data.meta.pagination.pageCount)
+
         setLoaded(true)
-      // console.log(loadedContacts)
+      console.log(response.data)
     
      }catch(err) {
       console.log(err.response)
@@ -190,6 +214,9 @@ const initialContacts = [
         deleteContact,
         updateContact,
         addContact,
+        pageCount,
+        pageNumber,
+        setPageNumber,
     }
 
     return  <ContactContext.Provider value={value}>{children}</ContactContext.Provider>
