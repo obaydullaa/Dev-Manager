@@ -98,6 +98,7 @@ const initialContacts = [
     const [loaded, setLoaded] =useState(false)
     const [pageNumber, setPageNumber] = useState(1)
     const [pageCount, setPageCount] = useState(null)
+    const [trigger, setTrigger] = useState(false)
 
     const {token} = useContext(AuthContext)
     const navigate = useNavigate();
@@ -108,7 +109,7 @@ const initialContacts = [
           await loadedContacts()
         })()
       }
-    },[token, pageNumber])
+    },[token, pageNumber, trigger])
 
     const loadedContacts = async () => {
       const query = qs.stringify({
@@ -151,6 +152,8 @@ const initialContacts = [
         const response = await axiosPrivateInstance(token).delete(`/contacts/${id}`)
         console.log(response.data)
         dispatch({type: DELETE_CONTACT, payload: response.data.data.id})
+        // triggering delete event
+        setTrigger(!trigger)
         // show toast message 
         toast.success('Contact is deleted successfully')
         // Navigate
@@ -198,6 +201,8 @@ const initialContacts = [
           const contact = formateContact(response.data.data)
           //dispatch here
           dispatch({type: ADD_CONTACT, payload: contact})
+          // triggering add contact event
+        setTrigger(!trigger)
           //show flash message
           toast.success("Contact is Added Successfully");
           //redirect to contacts

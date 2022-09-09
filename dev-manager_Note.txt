@@ -2829,3 +2829,31 @@ config/axios.js ->
         Authorization: `Bearer ${token}`,
       },
     })
+
+5. Delete korte pagination tar contact jano kome jai ai jonno amra ekta state nibo and seta deletefunction ar maddome useEffect hook diye call kore dibo.
+  Contact.contex.jsx --> 
+         const [trigger, setTrigger] = useState(false)
+  
+  eta Addcontact & Deletecontact a change koredibo
+      setTrigger(!trigger)
+
+useEffect hook ar modde dependency hisbe pathi dibo tahole loadedContacts function load hobe 
+ 
+ 6. 1 page thake sob contact delete korle page empty hoye jai. eta thk korar jonno..->.
+
+  Contacts.jsx --> 
+  ========================
+  const pageCountArray = generateArr(pageCount)
+  const isPageErrorOfBound = pageCount ? pageNumber > pageCount : false;
+  
+  useEffect(() => {
+    if(isPageErrorOfBound){
+      setPageNumber(pageNumber - 1)
+    }
+  })
+
+
+
+
+
+

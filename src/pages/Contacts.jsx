@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { Pagination } from 'react-bootstrap'
 import Contact from '../components/contacts/Contact'
 import Loader from '../components/Loader'
@@ -15,6 +16,13 @@ const generateArr = (num) => {
 export default function Contacts({deleteContact}) {
   const {contacts, loaded, pageNumber, pageCount, setPageNumber} = React.useContext(ContactContext)
   const pageCountArray = generateArr(pageCount)
+  const isPageErrorOfBound = pageCount ? pageNumber > pageCount : false;
+  
+  useEffect(() => {
+    if(isPageErrorOfBound){
+      setPageNumber(pageNumber - 1)
+    }
+  })
 
   const handlePageClick = (evt) => {
     setPageNumber(evt.target.dataset.count)
