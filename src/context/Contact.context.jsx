@@ -116,7 +116,7 @@ const initialContacts = [
         populate: '*',
         pagination: {
           page: pageNumber,
-          pageSize: 2,
+          pageSize: import.meta.env.VITE_PAGE_SIZE,
         }
       },
       {

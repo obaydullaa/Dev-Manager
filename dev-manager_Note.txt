@@ -2795,5 +2795,6 @@ Contact.context.jsx -->
 
 page number a click korar pore page change hosse na tai amra pageNumber ta useEffect hooks ar modde diye dibo.
 
-
+4. Amra jhokon production a dibo tokhon production ar viriable golo load hobe r jhokon Development a thakbo tokhon Development ar variable load hobe seta korar jonno amra .env name keta file nibo.
+    .env
 
