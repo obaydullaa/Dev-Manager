@@ -26,10 +26,8 @@ export default function Contacts({deleteContact}) {
 
   const handlePageClick = (evt) => {
     setPageNumber(evt.target.dataset.count)
-    console.log(evt.target.dataset.count)
   }
 
-  console.log(pageCountArray)
   return (
     <>
       <h2 className='text-center'>All Contacts</h2>

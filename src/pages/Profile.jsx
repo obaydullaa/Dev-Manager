@@ -33,9 +33,11 @@ function Profile() {
     const formData = new FormData()
     formData.append('files.profilePicture', file, file.name)
     formData.append('data', JSON.stringify(data))
+
     //Image upload alone
     //along with resource creation
     //Upload file to server
+    
     try{
       setSubmitting(true)
       const response= await axiosPrivateInstance(token).post(
