@@ -2983,7 +2983,7 @@ async function getResult() {
             searchResults.map((contact, index) => (
                 <h2 key={index}> {contact.firstName}{contact.lastName}</h2>
             )) :
-            <p>No Results Found</p> 
+            <p>No Results Found </p> 
              : <Loader /> 
         }
     </>

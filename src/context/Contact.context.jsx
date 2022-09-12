@@ -120,25 +120,6 @@ const initialContacts = [
           page: pageNumber,
           pageSize: import.meta.env.VITE_PAGE_SIZE,
         },
-        filters: {
-          $or: [
-              {
-                  firstName: {
-                      $contains: searchInput,
-                  },
-              },
-              {
-                  lastName: {
-                      $contains: searchInput,
-                  },
-              },
-              {
-                  bio: {
-                      $contains: searchInput,
-                  },
-              },
-          ],
-      },
       },
       {
         encodeValuesOnly: true,
@@ -214,19 +195,17 @@ const initialContacts = [
         //   // author: user.id,  
         //   ...contactData, 
         // }
-    //  console.log(contactData)
-        const {file, ...data} = contactData
+        // console.log(contactData)
+        let {file, ...data} = contactData
         // console.log(file)
         // console.log(data)
         const formData = new FormData()
         formData.append('files.profilePicture', file, file.name)
-        console.log(formData)
-        formData.append('data', JSON.stringify(data))
-
-        // console.log(formData)
-
+        formData.append('data', JSON.stringify(contactData))
+        console.log(data)
         try {
-          const response = await axiosPrivateInstance(token).post('/contacts?populate=*', 
+          const response = await axiosPrivateInstance(token).post(
+            "/contacts?populate=*", 
             formData,
           );
           const contact = formateContact(response.data.data)
